@@ -12,6 +12,7 @@ from telegram.ext import (
     CommandHandler,
     CallbackQueryHandler,
     MessageHandler,
+    ChatMemberHandler,
     ContextTypes,
     filters
 )
@@ -287,42 +288,50 @@ async def contact_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(update.message.text)
 
+# =========================
+# THÔNG BÁO THÀNH VIÊN MỚI
+# =========================
 
-# Thông báo thành viên mới
 async def welcome_member(update, context):
+
+    if not update.chat_member:
+        return
 
     result = update.chat_member
 
-    old = result.old_chat_member.status
-    new = result.new_chat_member.status
+    old_status = result.old_chat_member.status
+    new_status = result.new_chat_member.status
 
-    if old in ["left", "kicked"] and new == "member":
+    if old_status in ["left", "kicked"] and new_status == "member":
 
         user = result.new_chat_member.user
 
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=result.chat.id,
             text=(
-                "🎉 *Thành viên mới!*\n\n"
-                f"👤 Xin chào {user.first_name}\n"
-                "🔥 Chào mừng bạn đến với nhóm HCUONGIOS VIP!"
+                "🎉 *THÀNH VIÊN MỚI!*\n\n"
+                f"👤 Xin chào {user.first_name}\n\n"
+                "🔥 Chào mừng bạn đến với *HCUONGIOS VIP*"
             ),
             parse_mode="Markdown"
         )
 
 
-# Đăng ký lệnh
-tg.add_handler(CommandHandler('start', start))
-tg.add_handler(CommandHandler('help', help_cmd))
-tg.add_handler(CommandHandler('id', id_cmd))
-tg.add_handler(CommandHandler('ping', ping_cmd))
-tg.add_handler(CommandHandler('shop', shop_cmd))
-tg.add_handler(CommandHandler('contact', contact_cmd))
+# =========================
+# ĐĂNG KÝ HANDLER
+# =========================
 
-# Nút bấm menu
+tg.add_handler(CommandHandler("start", start))
+tg.add_handler(CommandHandler("help", help_cmd))
+tg.add_handler(CommandHandler("id", id_cmd))
+tg.add_handler(CommandHandler("ping", ping_cmd))
+tg.add_handler(CommandHandler("shop", shop_cmd))
+tg.add_handler(CommandHandler("contact", contact_cmd))
+
+# Menu nút bấm
 tg.add_handler(CallbackQueryHandler(button))
 
-# Thành viên mới vào nhóm
+# Thành viên mới
 tg.add_handler(
     ChatMemberHandler(
         welcome_member,
@@ -332,20 +341,33 @@ tg.add_handler(
 
 # Tin nhắn thường
 tg.add_handler(
-    MessageHandler(filters.TEXT & ~filters.COMMAND, echo)
+    MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        echo
+    )
 )
 
 
-@app.post('/webhook')
-async def webhook():
-    await tg.initialize()
+# =========================
+# WEBHOOK
+# =========================
 
-    u = Update.de_json(request.json, tg.bot)
-    await tg.process_update(u)
+@app.post("/webhook")
+async def webhook():
+
+    if not tg._initialized:
+        await tg.initialize()
+
+    update = Update.de_json(
+        request.json,
+        tg.bot
+    )
+
+    await tg.process_update(update)
 
     return "ok"
 
 
-@app.get('/')
+@app.get("/")
 def home():
     return "OK"
