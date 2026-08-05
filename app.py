@@ -64,7 +64,6 @@ async def start(update, context):
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 async def show_products(update, context):
-    ...:
     keyboard = [
         [
             InlineKeyboardButton("🛒 Mua API Key", callback_data="shop"),
