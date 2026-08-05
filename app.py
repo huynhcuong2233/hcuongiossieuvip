@@ -387,6 +387,10 @@ tg.add_handler(
 @app.post("/webhook")
 async def webhook():
 
+    if not tg._initialized:
+        await tg.initialize()
+        await tg.start()
+
     update = Update.de_json(
         request.json,
         tg.bot
@@ -395,8 +399,6 @@ async def webhook():
     await tg.process_update(update)
 
     return "ok"
-
-
 @app.get("/")
 def home():
 
