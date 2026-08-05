@@ -55,9 +55,9 @@ async def ping_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 async def shop_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🛒 CỬA HÀNG\n\n"
-        "📨 migul pro/lite\n"
-        "📨 proxy\n"
-        "📨 tipa/flork\n\n"
+        "📨 apl pro/lite\n"
+        "📨 apl \n"
+        "📨 apl /apl \n\n"
         "Liên hệ admin để @thuynhcuong2510 mua key."
     )
 
