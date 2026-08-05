@@ -96,7 +96,6 @@ async def show_products(update, context):
         reply_markup=InlineKeyboardMarkup(keyboard),
         parse_mode="Markdown",
     )
-    )
 
 
 # /help
