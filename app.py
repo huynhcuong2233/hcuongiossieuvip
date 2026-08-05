@@ -4,7 +4,7 @@ import os
 from telegram import (
     Update,
     InlineKeyboardButton,
-    InlineKeyboardMarkup,
+    InlineKeyboardMarkup
 )
 
 from telegram.ext import (
@@ -13,11 +13,12 @@ from telegram.ext import (
     CallbackQueryHandler,
     MessageHandler,
     ContextTypes,
-    filters,
+    filters
 )
 
+
 TOKEN = os.environ["BOT_TOKEN"]
-URL = os.environ.get('RENDER_EXTERNAL_URL', '')
+URL = os.environ.get("RENDER_EXTERNAL_URL", "")
 
 app = Flask(__name__)
 
@@ -188,8 +189,7 @@ async def webhook():
     u = Update.de_json(request.json, tg.bot)
     await tg.process_update(u)
 
-    return 'ok'
-
+    return "ok"
 
 @app.get('/')
 def home():
