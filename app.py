@@ -63,22 +63,44 @@ async def start(update, context):
 # /start
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
+
 async def show_products(update, context):
     keyboard = [
         [
-            InlineKeyboardButton("🛒 Mua API Key", callback_data="shop"),
-            InlineKeyboardButton("💳 Thanh toán", callback_data="payment"),
+            InlineKeyboardButton(
+                "⭐ API KEY PRO",
+                callback_data="product_pro"
+            )
         ],
         [
-            InlineKeyboardButton("📦 Đơn hàng", callback_data="orders"),
-            InlineKeyboardButton("🔑 API của tôi", callback_data="mykeys"),
+            InlineKeyboardButton(
+                "⚡ API KEY BASIC",
+                callback_data="product_basic"
+            )
         ],
         [
-            InlineKeyboardButton("📖 Hướng dẫn", callback_data="guide"),
-            InlineKeyboardButton("👤 Hỗ trợ", callback_data="support"),
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
         ],
     ]
 
+    await update.callback_query.edit_message_text(
+        "🛒 CHỌN SẢN PHẨM\n\n"
+        "⭐ API KEY PRO\n"
+        "⚡ API KEY BASIC",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
+async def button(update, context):
+    query = update.callback_query
+
+    await query.answer()
+
+    if query.data == "shop":
+        await show_products(update, context)
     text = (
         "🚀 *HCUONGIOS VIP*\n"
         "Premium API Services\n\n"
@@ -162,9 +184,6 @@ tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 @app.post('/webhook')
 async def webhook():
     await tg.initialize()
-
-    if query.data == "shop":
-    await show_products(update, context)
 
     u = Update.de_json(request.json, tg.bot)
     await tg.process_update(u)
