@@ -276,7 +276,7 @@ async def shop_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     )
 
 
-# /contact
+# /# Contact
 async def contact_cmd(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "☎️ Liên hệ admin: @thuynhcuong2510"
@@ -288,6 +288,29 @@ async def echo(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(update.message.text)
 
 
+# Thông báo thành viên mới
+async def welcome_member(update, context):
+
+    result = update.chat_member
+
+    old = result.old_chat_member.status
+    new = result.new_chat_member.status
+
+    if old in ["left", "kicked"] and new == "member":
+
+        user = result.new_chat_member.user
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=(
+                "🎉 *Thành viên mới!*\n\n"
+                f"👤 Xin chào {user.first_name}\n"
+                "🔥 Chào mừng bạn đến với nhóm HCUONGIOS VIP!"
+            ),
+            parse_mode="Markdown"
+        )
+
+
 # Đăng ký lệnh
 tg.add_handler(CommandHandler('start', start))
 tg.add_handler(CommandHandler('help', help_cmd))
@@ -295,9 +318,22 @@ tg.add_handler(CommandHandler('id', id_cmd))
 tg.add_handler(CommandHandler('ping', ping_cmd))
 tg.add_handler(CommandHandler('shop', shop_cmd))
 tg.add_handler(CommandHandler('contact', contact_cmd))
+
+# Nút bấm menu
 tg.add_handler(CallbackQueryHandler(button))
 
-tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+# Thành viên mới vào nhóm
+tg.add_handler(
+    ChatMemberHandler(
+        welcome_member,
+        ChatMemberHandler.CHAT_MEMBER
+    )
+)
+
+# Tin nhắn thường
+tg.add_handler(
+    MessageHandler(filters.TEXT & ~filters.COMMAND, echo)
+)
 
 
 @app.post('/webhook')
@@ -309,6 +345,7 @@ async def webhook():
 
     return "ok"
 
+
 @app.get('/')
 def home():
-    return 'OK'
+    return "OK"
