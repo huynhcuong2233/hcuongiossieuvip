@@ -12,11 +12,11 @@ async def echo(update:Update,ctx:ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(update.message.text)
 tg.add_handler(CommandHandler('start',start))
 tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND,echo))
-@app.post('/')
+@app.post('/webhook')
 async def webhook():
     await tg.initialize()
     if URL:
-        await tg.bot.set_webhook(URL+'/')
+        await tg.bot.set_webhook(URL+'/webhook')
     u=Update.de_json(request.json,tg.bot)
     await tg.process_update(u)
     return 'ok'
