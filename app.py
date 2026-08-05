@@ -23,7 +23,6 @@ URL = os.environ.get("RENDER_EXTERNAL_URL", "")
 app = Flask(__name__)
 
 tg = Application.builder().token(TOKEN).build()
-tg = Application.builder().token(TOKEN).build()
 
 
 # DÁN ĐOẠN show_products() Ở ĐÂY
@@ -65,6 +64,44 @@ async def start(update, context):
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
+async def start(update, context):
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "🛒 Mua API Key",
+                callback_data="shop"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "💳 Thanh toán",
+                callback_data="payment"
+            ),
+            InlineKeyboardButton(
+                "👤 Hỗ trợ",
+                callback_data="support"
+            )
+        ]
+    ]
+
+    text = (
+        "🚀 *HCUONGIOS VIP*\n"
+        "Premium API Services\n\n"
+        f"👋 Xin chào {update.effective_user.first_name}!\n\n"
+        "🔐 Cửa hàng API Key\n"
+        "⚡ Kích hoạt nhanh\n"
+        "🛡️ Hỗ trợ khách hàng\n"
+        "💳 Thanh toán an toàn\n\n"
+        "👇 Chọn chức năng:"
+    )
+
+    await update.message.reply_text(
+        text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode="Markdown"
+    )
+
+
 async def show_products(update, context):
     keyboard = [
         [
@@ -84,7 +121,7 @@ async def show_products(update, context):
                 "⬅️ Quay lại",
                 callback_data="home"
             )
-        ],
+        ]
     ]
 
     await update.callback_query.edit_message_text(
@@ -102,22 +139,6 @@ async def button(update, context):
 
     if query.data == "shop":
         await show_products(update, context)
-    text = (
-        "🚀 *HCUONGIOS VIP*\n"
-        "Premium API Services\n\n"
-        f"👋 Xin chào {update.effective_user.first_name}!\n\n"
-        "🔐 Chào mừng đến với cửa hàng API Key.\n"
-        "⚡ Kích hoạt nhanh\n"
-        "🛡️ Hỗ trợ 24/7\n"
-        "💳 Thanh toán an toàn\n\n"
-        "👇 Vui lòng chọn chức năng:"
-    )
-
-    await update.message.reply_text(
-        text,
-        reply_markup=InlineKeyboardMarkup(keyboard),
-        parse_mode="Markdown",
-    )
 
 
 # /help
