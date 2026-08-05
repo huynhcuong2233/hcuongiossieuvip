@@ -56,7 +56,7 @@ async def show_products(update, context):
         "🛒 *CHỌN SẢN PHẨM*\n\n"
         "⭐ API KEY PRO\n"
         "⚡ API KEY BASIC\n\n"
-        "👇 Chọn gói bạn muốn mua:",
+        "👇 Chọn sản phẩm:",
         reply_markup=InlineKeyboardMarkup(keyboard),
         parse_mode="Markdown"
     )
@@ -67,26 +67,30 @@ async def button(update, context):
 
     await query.answer()
 
+    print("BUTTON:", query.data)
+
     if query.data == "shop":
         await show_products(update, context)
 
+
     elif query.data == "product_pro":
+
         keyboard = [
             [
                 InlineKeyboardButton(
-                    "💳 Mua 1 ngày - 70.000đ",
+                    "💳 1 ngày - 70.000đ",
                     callback_data="buy_pro_day"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    "🔥 Mua 1 tuần - 210.000đ",
+                    "🔥 1 tuần - 210.000đ",
                     callback_data="buy_pro_week"
                 )
             ],
             [
                 InlineKeyboardButton(
-                    "👑 Mua 1 tháng - 450.000đ",
+                    "👑 1 tháng - 450.000đ",
                     callback_data="buy_pro_month"
                 )
             ],
@@ -100,13 +104,13 @@ async def button(update, context):
 
         await query.edit_message_text(
             "╔══════════════╗\n"
-            " ⭐ *HCUONGIOS VIP* ⭐\n"
+            "⭐ *HCUONGIOS VIP* ⭐\n"
             "╚══════════════╝\n\n"
             "🚀 *API KEY PRO*\n\n"
             "✅ Kích hoạt nhanh\n"
-            "✅ Hỗ trợ khách hàng\n"
+            "✅ Hỗ trợ 24/7\n"
             "✅ Dịch vụ ổn định\n\n"
-            "💰 *Bảng giá:*\n"
+            "💰 *Giá:*\n"
             "🟢 1 ngày: 70.000đ\n"
             "🔵 1 tuần: 210.000đ\n"
             "🟣 1 tháng: 450.000đ",
@@ -114,12 +118,36 @@ async def button(update, context):
             parse_mode="Markdown"
         )
 
+
     elif query.data == "product_basic":
+
         await query.edit_message_text(
+            "╔══════════════╗\n"
+            "⭐ *HCUONGIOS VIP* ⭐\n"
+            "╚══════════════╝\n\n"
             "⚡ *API KEY BASIC*\n\n"
             "🟢 1 ngày: 50.000đ\n"
             "🔵 1 tuần: 150.000đ\n"
             "🟣 1 tháng: 450.000đ",
+            parse_mode="Markdown"
+        )
+
+
+    elif query.data == "home":
+
+        await query.edit_message_text(
+            "🏠 *HCUONGIOS VIP*\n\n"
+            "Chọn chức năng từ menu.",
+            parse_mode="Markdown"
+        )
+
+
+    elif query.data.startswith("buy_"):
+
+        await query.edit_message_text(
+            "✅ Bạn đã chọn gói:\n\n"
+            f"`{query.data}`\n\n"
+            "☎️ Liên hệ admin để thanh toán.",
             parse_mode="Markdown"
         )
 
