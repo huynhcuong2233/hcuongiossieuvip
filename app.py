@@ -27,6 +27,9 @@ tg = Application.builder().token(TOKEN).build()
 
 # DÁN ĐOẠN show_products() Ở ĐÂY
 
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+
 async def show_products(update, context):
     keyboard = [
         [
@@ -46,13 +49,79 @@ async def show_products(update, context):
                 "⬅️ Quay lại",
                 callback_data="home"
             )
-        ]
+        ],
     ]
 
     await update.callback_query.edit_message_text(
-        "🛒 CHỌN SẢN PHẨM",
-        reply_markup=InlineKeyboardMarkup(keyboard)
+        "🛒 *CHỌN SẢN PHẨM*\n\n"
+        "⭐ API KEY PRO\n"
+        "⚡ API KEY BASIC\n\n"
+        "👇 Chọn gói bạn muốn mua:",
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode="Markdown"
     )
+
+
+async def button(update, context):
+    query = update.callback_query
+
+    await query.answer()
+
+    if query.data == "shop":
+        await show_products(update, context)
+
+    elif query.data == "product_pro":
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "💳 Mua 1 ngày - 70.000đ",
+                    callback_data="buy_pro_day"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🔥 Mua 1 tuần - 210.000đ",
+                    callback_data="buy_pro_week"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "👑 Mua 1 tháng - 450.000đ",
+                    callback_data="buy_pro_month"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            "╔══════════════╗\n"
+            " ⭐ *HCUONGIOS VIP* ⭐\n"
+            "╚══════════════╝\n\n"
+            "🚀 *API KEY PRO*\n\n"
+            "✅ Kích hoạt nhanh\n"
+            "✅ Hỗ trợ khách hàng\n"
+            "✅ Dịch vụ ổn định\n\n"
+            "💰 *Bảng giá:*\n"
+            "🟢 1 ngày: 70.000đ\n"
+            "🔵 1 tuần: 210.000đ\n"
+            "🟣 1 tháng: 450.000đ",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+            parse_mode="Markdown"
+        )
+
+    elif query.data == "product_basic":
+        await query.edit_message_text(
+            "⚡ *API KEY BASIC*\n\n"
+            "🟢 1 ngày: 50.000đ\n"
+            "🔵 1 tuần: 150.000đ\n"
+            "🟣 1 tháng: 450.000đ",
+            parse_mode="Markdown"
+        )
 
 
 # Sau đó mới tới
