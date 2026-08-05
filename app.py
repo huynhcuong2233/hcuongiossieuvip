@@ -1,26 +1,101 @@
 from flask import Flask, request
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
 import os
 
-TOKEN = os.environ['BOT_TOKEN']
+from telegram import (
+    Update,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+)
+
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    CallbackQueryHandler,
+    MessageHandler,
+    ContextTypes,
+    filters,
+)
+
+TOKEN = os.environ["BOT_TOKEN"]
 URL = os.environ.get('RENDER_EXTERNAL_URL', '')
 
 app = Flask(__name__)
 
 tg = Application.builder().token(TOKEN).build()
+tg = Application.builder().token(TOKEN).build()
+
+
+# DÁN ĐOẠN show_products() Ở ĐÂY
+
+async def show_products(update, context):
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⭐ API KEY PRO",
+                callback_data="product_pro"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⚡ API KEY BASIC",
+                callback_data="product_basic"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
+        ]
+    ]
+
+    await update.callback_query.edit_message_text(
+        "🛒 CHỌN SẢN PHẨM",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
+# Sau đó mới tới
+async def start(update, context):
+    ...
 
 
 # /start
-async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
+async def show_products(update, context):
+    ...:
+    keyboard = [
+        [
+            InlineKeyboardButton("🛒 Mua API Key", callback_data="shop"),
+            InlineKeyboardButton("💳 Thanh toán", callback_data="payment"),
+        ],
+        [
+            InlineKeyboardButton("📦 Đơn hàng", callback_data="orders"),
+            InlineKeyboardButton("🔑 API của tôi", callback_data="mykeys"),
+        ],
+        [
+            InlineKeyboardButton("📖 Hướng dẫn", callback_data="guide"),
+            InlineKeyboardButton("👤 Hỗ trợ", callback_data="support"),
+        ],
+    ]
+
+    text = (
+        "🚀 *HCUONGIOS VIP*\n"
+        "Premium API Services\n\n"
+        f"👋 Xin chào {update.effective_user.first_name}!\n\n"
+        "🔐 Chào mừng đến với cửa hàng API Key.\n"
+        "⚡ Kích hoạt nhanh\n"
+        "🛡️ Hỗ trợ 24/7\n"
+        "💳 Thanh toán an toàn\n\n"
+        "👇 Vui lòng chọn chức năng:"
+    )
+
     await update.message.reply_text(
-        "🤖 Bot online!\n\n"
-        "Danh sách lệnh:\n"
-        "/help - Xem lệnh\n"
-        "/id - Lấy ID\n"
-        "/ping - Kiểm tra bot\n"
-        "/shop - Cửa hàng\n"
-        "/contact - Liên hệ"
+        text,
+        reply_markup=InlineKeyboardMarkup(keyboard),
+        parse_mode="Markdown",
+    )
     )
 
 
@@ -81,6 +156,7 @@ tg.add_handler(CommandHandler('id', id_cmd))
 tg.add_handler(CommandHandler('ping', ping_cmd))
 tg.add_handler(CommandHandler('shop', shop_cmd))
 tg.add_handler(CommandHandler('contact', contact_cmd))
+tg.add_handler(CallbackQueryHandler(button))
 
 tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
@@ -89,8 +165,8 @@ tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 async def webhook():
     await tg.initialize()
 
-    if URL:
-        await tg.bot.set_webhook(URL + '/webhook')
+    if query.data == "shop":
+    await show_products(update, context)
 
     u = Update.de_json(request.json, tg.bot)
     await tg.process_update(u)
