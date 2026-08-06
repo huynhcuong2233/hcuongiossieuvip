@@ -465,21 +465,27 @@ Chọn sản phẩm:
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-    # =========================
+        
+    # ==========================
     # NẠP TIỀN MOMO
     # ==========================
+
     elif query.data == "deposit":
 
         user_id = query.from_user.id
+
         code = create_deposit_code(user_id)
 
         text = f"""
+
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
+
 0375942325
 
 👤 Chủ ví:
+
 THACH HUYNH CUONG
 
 💵 Nội dung chuyển khoản:
@@ -487,31 +493,51 @@ THACH HUYNH CUONG
 <code>{code}</code>
 
 ⚠️ Vui lòng ghi đúng nội dung.
+
 """
 
         keyboard = [
+
             [
+
                 InlineKeyboardButton(
+
                     "✅ Tôi đã chuyển tiền",
+
                     callback_data="check_payment"
+
                 )
+
             ],
+
             [
+
                 InlineKeyboardButton(
+
                     "⬅️ Quay lại",
+
                     callback_data="home"
+
                 )
+
             ]
+
         ]
 
         qr_path = create_qr(user_id)
 
         with open(qr_path, "rb") as photo:
+
             await query.message.reply_photo(
+
                 photo=photo,
+
                 caption=text,
+
                 parse_mode="HTML",
+
                 reply_markup=InlineKeyboardMarkup(keyboard)
+
             )
 
         await query.delete_message()
