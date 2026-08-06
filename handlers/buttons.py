@@ -166,10 +166,10 @@ async def buttons(
 
 
     # ==========================
-    # CỬA HÀNG
-    # ==========================
+# CỬA HÀNG
+# ==========================
 
-    elif query.data == "shop":
+elif query.data == "shop":
 
     keyboard = [
         [
@@ -204,22 +204,22 @@ async def buttons(
         ]
     ]
 
-        await query.edit_message_text(
-            """
+    await query.edit_message_text(
+        """
 🛒 <b>CỬA HÀNG HCUONGIOS</b>
 
 👇 Chọn sản phẩm:
 """,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
     
-# ==========================
-# FF MIGUL
-# ==========================
+    # ==========================
+    # FF MIGUL
+    # ==========================
 
-elif query.data == "product_ff":
+    elif query.data == "product_ff":
 
         keyboard = [
             [
