@@ -171,32 +171,38 @@ async def buttons(
 
     elif query.data == "shop":
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "⚔️ Liên Quân iOS",
-                    callback_data="product_lq"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "🎮 PUBG iOS",
-                    callback_data="product_pubg"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "🎱 8 Ball Pool",
-                    callback_data="product_8ball"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "🔥 FF MIGUL • VN",
+                callback_data="product_ff"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⚔️ Liên Quân iOS",
+                callback_data="product_lq"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🎮 PUBG iOS",
+                callback_data="product_pubg"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🎱 8 Ball Pool",
+                callback_data="product_8ball"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
         ]
+    ]
 
         await query.edit_message_text(
             """
@@ -210,11 +216,10 @@ async def buttons(
 
     
 # ==========================
-#    # ==========================
-    # FF MIGUL
-    # ==========================
+# FF MIGUL
+# ==========================
 
-    elif query.data == "product_ff":
+elif query.data == "product_ff":
 
         keyboard = [
             [
@@ -509,54 +514,6 @@ THACH HUYNH CUONG
 
 
     # ==========================
-    # NẠP TIỀN MOMO
-    # ==========================
-
-    elif query.data == "deposit":
-
-        user_id = query.from_user.id
-
-        code = create_deposit_code(user_id)
-
-        text = f"""
-💰 <b>NẠP TIỀN QUA MOMO</b>
-
-📱 Ví MoMo:
-0375942325
-
-👤 Chủ ví:
-THACH HUYNH CUONG
-
-💵 Nội dung chuyển khoản:
-
-<code>{code}</code>
-
-⚠️ Vui lòng ghi đúng nội dung.
-"""
-
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "✅ Tôi đã chuyển tiền",
-                    callback_data="check_payment"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
-        ]
-
-        await query.edit_message_text(
-            text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
-
-
-    # ==========================
     # KIỂM TRA THANH TOÁN
     # ==========================
 
@@ -643,10 +600,39 @@ THACH HUYNH CUONG
     elif query.data.startswith("buy_"):
 
         products = {
-            "buy_lq": ("Liên Quân iOS", 150000),
-            "buy_pubg": ("PUBG Dolphin iOS", 180000),
-            "buy_8ball": ("8 Ball Pool iOS", 120000),
-        }
+
+    "buy_lq":
+    ("Liên Quân iOS", 150000),
+
+    "buy_pubg":
+    ("PUBG Dolphin iOS", 180000),
+
+    "buy_8ball":
+    ("8 Ball Pool iOS", 120000),
+
+
+    "buy_migul_lite_1d":
+    ("Migul Lite VN - 1 ngày", 50000),
+
+    "buy_migul_lite_7d":
+    ("Migul Lite VN - 7 ngày", 150000),
+
+    "buy_migul_lite_30d":
+    ("Migul Lite VN - 30 ngày", 350000),
+
+
+    "buy_migul_pro_1h":
+    ("Migul Pro VN - 1 giờ", 10000),
+
+    "buy_migul_pro_1d":
+    ("Migul Pro VN - 1 ngày", 65000),
+
+    "buy_migul_pro_7d":
+    ("Migul Pro VN - 7 ngày", 215000),
+
+    "buy_migul_pro_30d":
+    ("Migul Pro VN - 30 ngày", 450000),
+}
 
         product_name, price = products[query.data]
 
