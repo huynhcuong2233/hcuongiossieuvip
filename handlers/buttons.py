@@ -469,7 +469,7 @@ Chọn sản phẩm:
     # ==========================
     # NẠP TIỀN MOMO
     # ==========================
-    elif query.data == "deposit":
+        elif query.data == "deposit":
 
         user_id = query.from_user.id
         code = create_deposit_code(user_id)
@@ -504,8 +504,6 @@ THACH HUYNH CUONG
                 )
             ]
         ]
-
-                   ]
 
         qr_path = create_qr(user_id)
 
