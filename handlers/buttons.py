@@ -207,13 +207,13 @@ async def buttons(
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-        
-# ==========================
-# FF MIGUL
-# ==========================
 
-elif query.data == "product_ff":
+    
+    # ==========================
+    # FF MIGUL
+    # ==========================
 
+    elif query.data == "product_ff":
     keyboard = [
         [
             InlineKeyboardButton(
