@@ -425,5 +425,3 @@ async def webhook():
     await tg.process_update(update)
 
     return "OK"
-
-
