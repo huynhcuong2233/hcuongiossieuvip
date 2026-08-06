@@ -93,9 +93,9 @@ Admin sẽ cập nhật sau.
         caption = f"""
 💳 <b>NẠP TIỀN TỰ ĐỘNG</b>
 
-🏦 <b>Ngân hàng:</b> MB Bank
-👤 <b>Chủ tài khoản:</b> THACH THI NGOC TRAN
-💳 <b>Số tài khoản:</b> 26251008201010
+🏦 <b>Ngân hàng:</b> VIETCOMBANK
+👤 <b>Chủ tài khoản:</b> THACH HUYNH CUONG
+💳 <b>Số tài khoản:</b> 1052960029
 
 ━━━━━━━━━━━━━━
 
@@ -150,7 +150,7 @@ Bạn chưa có giao dịch nào.
 ☎️ <b>HỖ TRỢ</b>
 
 Telegram:
-@hcuongios
+@thuynhcuong2510
 """
 
         keyboard = [
