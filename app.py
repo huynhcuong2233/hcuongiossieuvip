@@ -29,7 +29,29 @@ TOKEN = os.environ["BOT_TOKEN"]
 app = Flask(__name__)
 
 tg = Application.builder().token(TOKEN).build()
+from telegram.ext import ChatMemberHandler
 
+async def welcome_member(update, context):
+
+    member = update.chat_member
+
+    old = member.old_chat_member.status
+    new = member.new_chat_member.status
+
+    if old in ["left", "kicked"] and new == "member":
+
+        user = member.new_chat_member.user
+
+        await context.bot.send_message(
+            chat_id=member.chat.id,
+            text=(
+                "🎉 <b>CHÀO MỪNG THÀNH VIÊN MỚI</b>\n\n"
+                f"👤 Xin chào {user.first_name}\n"
+                "🔥 Chào mừng bạn đến với HCUONGIOS VIP\n\n"
+                "👇 Gõ /start để xem dịch vụ"
+            ),
+            parse_mode="HTML"
+        )
 # Đăng ký handler
 tg.add_handler(CommandHandler("start", start))
 tg.add_handler(CallbackQueryHandler(buttons))
@@ -398,14 +420,6 @@ tg.add_handler(
     ChatMemberHandler(
         welcome_member,
         ChatMemberHandler.CHAT_MEMBER
-    )
-)
-
-
-tg.add_handler(
-    MessageHandler(
-        filters.TEXT & ~filters.COMMAND,
-        echo
     )
 )
 
