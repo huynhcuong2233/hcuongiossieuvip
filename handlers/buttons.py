@@ -209,11 +209,12 @@ async def buttons(
         )
 
     
-    # ==========================
-    # FF MIGUL
-    # ==========================
+# ==========================
+# FF MIGUL
+# ==========================
 
-    elif query.data == "product_ff":
+elif query.data == "product_ff":
+
     keyboard = [
         [
             InlineKeyboardButton(
