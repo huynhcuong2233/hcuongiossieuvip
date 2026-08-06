@@ -422,21 +422,16 @@ tg.add_handler(
 
 @app.post("/webhook")
 async def webhook():
-
-    if not tg._initialized:
-        await tg.initialize()
-        await tg.start()
-
     update = Update.de_json(
-        request.json,
+        request.get_json(force=True),
         tg.bot
     )
 
     await tg.process_update(update)
 
-    return "ok"
+    return "OK"
+
+
 @app.get("/")
 def home():
-
     return "HCUONGIOS VIP ONLINE"
-                
