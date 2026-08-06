@@ -356,12 +356,11 @@ elif query.data == "product_migul_pro":
     )
 
 
-    # ==========================
-    # LIÊN QUÂN
-    # ==========================
+  # ==========================
+# LIÊN QUÂN
+# ==========================
 
-    elif query.data == "product_lq":
-
+elif query.data == "product_lq":
         keyboard = [
             [
                 InlineKeyboardButton(
