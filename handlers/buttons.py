@@ -165,90 +165,49 @@ async def buttons(
         )
 
 
-    # ==========================
-    # CỬA HÀNG
-    # ==========================
-
     elif query.data == "shop":
 
         keyboard = [
-
             [
-
                 InlineKeyboardButton(
-
                     "🔥 FF MIGUL • VN",
-
                     callback_data="product_ff"
-
                 )
-
             ],
-
             [
-
                 InlineKeyboardButton(
-
                     "⚔️ Liên Quân iOS",
-
                     callback_data="product_lq"
-
                 )
-
             ],
-
             [
-
                 InlineKeyboardButton(
-
                     "🎮 PUBG iOS",
-
                     callback_data="product_pubg"
-
                 )
-
             ],
-
             [
-
                 InlineKeyboardButton(
-
                     "🎱 8 Ball Pool",
-
                     callback_data="product_8ball"
-
                 )
-
             ],
-
             [
-
                 InlineKeyboardButton(
-
                     "⬅️ Quay lại",
-
                     callback_data="home"
-
                 )
-
             ]
-
         ]
 
         await query.edit_message_text(
-
             """
-
 🛒 <b>CỬA HÀNG HCUONGIOS</b>
 
 👇 Chọn sản phẩm:
-
 """,
-
             parse_mode="HTML",
-
             reply_markup=InlineKeyboardMarkup(keyboard)
-
         )
 
 
@@ -290,7 +249,6 @@ Chọn sản phẩm:
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-
 
     # ==========================
     # MIGUL LITE
