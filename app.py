@@ -35,10 +35,16 @@ tg.add_handler(CommandHandler("start", start))
 tg.add_handler(CallbackQueryHandler(buttons))
 # Khởi tạo bot một lần
 @app.before_request
-async def initialize_bot():
+def initialize_bot():
     if not getattr(app, "_initialized", False):
-        await tg.initialize()
-        await tg.start()
+        import asyncio
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+        loop.run_until_complete(tg.initialize())
+        loop.run_until_complete(tg.start())
+
         app._initialized = True
 
 # Trang chủ
