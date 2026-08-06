@@ -141,6 +141,77 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Cửa hàng
     elif query.data == "shop":
 
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "🔥 Migul FreeFire • VN",
+                callback_data="product_ff"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⚔️ Liên Quân iOS",
+                callback_data="product_lq"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🎱 8 Ball Pool iOS",
+                callback_data="product_8ball"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🚀 TIPA FF External",
+                callback_data="product_tipa"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🌍 Migul Global",
+                callback_data="product_global"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🎮 PUBG Dolphin iOS",
+                callback_data="product_pubg"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🔥 Flork External FF MAX",
+                callback_data="product_flork"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🎁 Key Test Miễn Phí",
+                callback_data="free_key"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
+        ]
+    ]
+
+    text = """
+🛒 <b>CỬA HÀNG SẢN PHẨM</b>
+
+Hãy chọn sản phẩm bạn muốn mua bên dưới.
+
+💡 <i>F là các sản phẩm đang Flash Sale.</i>
+"""
+
+    await query.edit_message_text(
+        text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
         text = """
 🛒 <b>CỬA HÀNG</b>
     elif query.data == "product_ff":
@@ -215,6 +286,37 @@ Chọn sản phẩm muốn mua:
 
 
     elif query.data == "product_8ball":
+    elif query.data == "product_lq":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⚔️ Liên Quân iOS | 150.000đ",
+                callback_data="buy_lq"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="shop"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+⚔️ <b>LIÊN QUÂN iOS</b>
+
+💰 Giá: 150.000đ
+
+🔥 Bảo hành
+⚡ Kích hoạt tự động
+
+👇 Nhấn nút bên dưới để mua.
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
         keyboard = [
             [
@@ -301,6 +403,38 @@ Chọn sản phẩm:
 
 
     elif query.data == "product_pubg":
+    elif query.data == "product_ff":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⚡ Migul Lite - VN | 100.000đ",
+                callback_data="buy_migul_lite"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🔥 Migul Pro - VN | 200.000đ",
+                callback_data="buy_migul_pro"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="shop"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+🔥 <b>MIGUL FREEFIRE • VN</b>
+
+Chọn sản phẩm muốn mua.
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
         keyboard = [
             [
