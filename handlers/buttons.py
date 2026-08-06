@@ -470,12 +470,12 @@ Chọn sản phẩm:
     # NẠP TIỀN MOMO
     # ==========================
 
-    elif query.data == "deposit":
+  elif query.data == "deposit":
 
-        user_id = query.from_user.id
-        code = create_deposit_code(user_id)
+    user_id = query.from_user.id
+    code = create_deposit_code(user_id)
 
-        text = f"""
+    text = f"""
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
@@ -491,41 +491,63 @@ THACH HUYNH CUONG
 ⚠️ Vui lòng ghi đúng nội dung.
 """
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "✅ Tôi đã chuyển tiền",
-                    callback_data="check_payment"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "✅ Tôi đã chuyển tiền",
+                callback_data="check_payment"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
         ]
+    ]
 
-        qr_path = create_qr(user_id)
+    qr_path = create_qr(user_id)
 
-        await query.message.reply_photo(
-            photo=open(qr_path, "rb"),
-            caption=text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+    await query.message.reply_photo(
+        photo=open(qr_path, "rb"),
+        caption=text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
-        await query.delete_message()
+    await query.delete_message()
 
-    elif query.data == "check_payment":
+elif query.data == "check_payment":
 
-        await query.answer(
-            "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
-            show_alert=True
-        )
+    await query.answer(
+        "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
+        show_alert=True
+    )
 
-    elif query.data == "history":
-        ...
+elif query.data == "history":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+📜 <b>LỊCH SỬ GIAO DỊCH</b>
+
+━━━━━━━━━━━━━━
+
+❌ Chưa có giao dịch.
+
+━━━━━━━━━━━━━━
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
     # ==========================
     # KIỂM TRA THANH TOÁN
     # ==========================
