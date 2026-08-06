@@ -1,45 +1,47 @@
 import sqlite3
-import os
-
-DB_NAME = "data/database.db"
+from config import DATABASE_NAME
 
 
 def connect():
-    os.makedirs("data", exist_ok=True)
-    return sqlite3.connect(DB_NAME)
+    return sqlite3.connect(DATABASE_NAME)
 
 
-def create_tables():
+def setup_database():
     conn = connect()
     cur = conn.cursor()
 
+    # Người dùng
     cur.execute("""
     CREATE TABLE IF NOT EXISTS users(
         user_id INTEGER PRIMARY KEY,
         username TEXT,
-        full_name TEXT,
+        fullname TEXT,
         balance INTEGER DEFAULT 0,
-        total_deposit INTEGER DEFAULT 0
+        total_deposit INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
 
+    # Giao dịch nạp tiền
     cur.execute("""
     CREATE TABLE IF NOT EXISTS deposits(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         amount INTEGER,
         content TEXT,
-        status TEXT,
+        status TEXT DEFAULT 'pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
 
+    # Đơn hàng
     cur.execute("""
     CREATE TABLE IF NOT EXISTS orders(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         product TEXT,
         price INTEGER,
+        api_key TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
@@ -48,14 +50,14 @@ def create_tables():
     conn.close()
 
 
-def add_user(user_id, username, full_name):
+def add_user(user_id, username, fullname):
     conn = connect()
     cur = conn.cursor()
 
     cur.execute("""
-    INSERT OR IGNORE INTO users(user_id, username, full_name)
-    VALUES (?, ?, ?)
-    """, (user_id, username, full_name))
+    INSERT OR IGNORE INTO users(user_id, username, fullname)
+    VALUES(?,?,?)
+    """, (user_id, username, fullname))
 
     conn.commit()
     conn.close()
@@ -73,6 +75,7 @@ def get_user(user_id):
     user = cur.fetchone()
 
     conn.close()
+
     return user
 
 
@@ -89,7 +92,10 @@ def get_balance(user_id):
 
     conn.close()
 
-    return row[0] if row else 0
+    if row:
+        return row[0]
+
+    return 0
 
 
 def add_balance(user_id, amount):
@@ -98,7 +104,8 @@ def add_balance(user_id, amount):
 
     cur.execute("""
     UPDATE users
-    SET balance = balance + ?,
+    SET
+        balance = balance + ?,
         total_deposit = total_deposit + ?
     WHERE user_id=?
     """, (amount, amount, user_id))
@@ -107,7 +114,7 @@ def add_balance(user_id, amount):
     conn.close()
 
 
-def minus_balance(user_id, amount):
+def remove_balance(user_id, amount):
     conn = connect()
     cur = conn.cursor()
 
@@ -121,14 +128,37 @@ def minus_balance(user_id, amount):
     conn.close()
 
 
-def add_deposit(user_id, amount, content, status="pending"):
+def create_order(user_id, product, price, api_key):
     conn = connect()
     cur = conn.cursor()
 
     cur.execute("""
-    INSERT INTO deposits(user_id, amount, content, status)
-    VALUES (?, ?, ?, ?)
-    """, (user_id, amount, content, status))
+    INSERT INTO orders(
+        user_id,
+        product,
+        price,
+        api_key
+    )
+    VALUES(?,?,?,?)
+    """, (user_id, product, price, api_key))
 
     conn.commit()
     conn.close()
+
+
+def get_orders(user_id):
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT product, price, created_at
+    FROM orders
+    WHERE user_id=?
+    ORDER BY id DESC
+    """, (user_id,))
+
+    rows = cur.fetchall()
+
+    conn.close()
+
+    return rows
