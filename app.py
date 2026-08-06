@@ -1,10 +1,10 @@
-from flask import Flask, request
 import os
+from flask import Flask, request
 
 from telegram import (
     Update,
     InlineKeyboardButton,
-    InlineKeyboardMarkup
+    InlineKeyboardMarkup,
 )
 
 from telegram.ext import (
@@ -14,15 +14,47 @@ from telegram.ext import (
     MessageHandler,
     ChatMemberHandler,
     ContextTypes,
-    filters
+    filters,
 )
 
+from handlers.start import start
+from handlers.buttons import buttons
 
 TOKEN = os.environ["BOT_TOKEN"]
 
 app = Flask(__name__)
 
 tg = Application.builder().token(TOKEN).build()
+
+# Đăng ký handler
+tg.add_handler(CommandHandler("start", start))
+tg.add_handler(CallbackQueryHandler(buttons))
+
+# Khởi tạo bot một lần
+@app.before_request
+async def initialize_bot():
+    if not getattr(app, "_initialized", False):
+        await tg.initialize()
+        await tg.start()
+        app._initialized = True
+
+# Trang chủ
+@app.get("/")
+def home():
+    return "✅ HCUONGIOS BOT ONLINE"
+
+# Webhook Telegram
+@app.post(f"/{TOKEN}")
+async def webhook():
+    update = Update.de_json(request.get_json(force=True), tg.bot)
+    await tg.process_update(update)
+    return "OK"
+
+if __name__ == "__main__":
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000))
+    )
 
 
 # ==========================
