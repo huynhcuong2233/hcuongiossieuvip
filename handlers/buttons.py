@@ -328,23 +328,16 @@ async def buttons(
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
     # ==========================
-    # NẠP TIỀN
-    # ==========================
+# NẠP TIỀN
+# ==========================
 
-    async def button_handler(update, context):
-    query = update.callback_query
-    await query.answer()
+elif query.data == "deposit":
 
-    if query.data == "menu":
-        ...
+    user_id = query.from_user.id
 
-    elif query.data == "deposit":
+    code = create_deposit_code(user_id)
 
-        user_id = query.from_user.id
-
-        code = create_deposit_code(user_id)
-
-        text = f"""
+    text = f"""
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
@@ -359,10 +352,26 @@ THACH HUYNH CUONG
 ⚠️ Vui lòng ghi đúng nội dung để được cộng tiền.
 """
 
-        await query.message.edit_text(
-            text,
-            parse_mode="HTML"
-        )
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "✅ Tôi đã chuyển tiền",
+                callback_data="check_payment"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
 
     # ==========================
