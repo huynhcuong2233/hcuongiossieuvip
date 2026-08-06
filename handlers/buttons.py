@@ -210,80 +210,81 @@ async def buttons(
 
     
 # ==========================
-# FF MIGUL
-# ==========================
+#    # ==========================
+    # FF MIGUL
+    # ==========================
 
-elif query.data == "product_ff":
+    elif query.data == "product_ff":
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "⭐ Migul Lite - VN",
-                callback_data="product_migul_lite"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "👑 Migul Pro - VN",
-                callback_data="product_migul_pro"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="shop"
-            )
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⭐ Migul Lite - VN",
+                    callback_data="product_migul_lite"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "👑 Migul Pro - VN",
+                    callback_data="product_migul_pro"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
         ]
-    ]
 
-    await query.edit_message_text(
-        """
+        await query.edit_message_text(
+            """
 🔥 <b>FF MIGUL • VN</b>
 
 📦 <b>DANH MỤC: Migul FreeFire</b>
 
 Chọn sản phẩm bên dưới để xem chi tiết:
 """,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
 
 
-# ==========================
-# MIGUL LITE
-# ==========================
+    # ==========================
+    # MIGUL LITE
+    # ==========================
 
-elif query.data == "product_migul_lite":
+    elif query.data == "product_migul_lite":
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "⏱️ 1 ngày | 50.000đ",
-                callback_data="buy_migul_lite_1d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⏱️ 7 ngày | 150.000đ",
-                callback_data="buy_migul_lite_7d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⏱️ 30 ngày | 350.000đ",
-                callback_data="buy_migul_lite_30d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="product_ff"
-            )
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⏱️ 1 ngày | 50.000đ",
+                    callback_data="buy_migul_lite_1d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⏱️ 7 ngày | 150.000đ",
+                    callback_data="buy_migul_lite_7d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⏱️ 30 ngày | 350.000đ",
+                    callback_data="buy_migul_lite_30d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="product_ff"
+                )
+            ]
         ]
-    ]
 
-    await query.edit_message_text(
-        """
+        await query.edit_message_text(
+            """
 ⭐ <b>MIGUL LITE - VN</b>
 
 🔥 Migul FF Lite dành cho khách hàng VN
@@ -295,52 +296,52 @@ elif query.data == "product_migul_lite":
 
 💰 Chọn thời hạn:
 """,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
 
 
-# ==========================
-# MIGUL PRO
-# ==========================
+    # ==========================
+    # MIGUL PRO
+    # ==========================
 
-elif query.data == "product_migul_pro":
+    elif query.data == "product_migul_pro":
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "⏱️ 1 giờ | 10.000đ",
-                callback_data="buy_migul_pro_1h"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⏱️ 1 ngày | 65.000đ",
-                callback_data="buy_migul_pro_1d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⏱️ 7 ngày | 215.000đ",
-                callback_data="buy_migul_pro_7d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⏱️ 30 ngày | 450.000đ",
-                callback_data="buy_migul_pro_30d"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="product_ff"
-            )
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⏱️ 1 giờ | 10.000đ",
+                    callback_data="buy_migul_pro_1h"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⏱️ 1 ngày | 65.000đ",
+                    callback_data="buy_migul_pro_1d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⏱️ 7 ngày | 215.000đ",
+                    callback_data="buy_migul_pro_7d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⏱️ 30 ngày | 450.000đ",
+                    callback_data="buy_migul_pro_30d"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="product_ff"
+                )
+            ]
         ]
-    ]
 
-    await query.edit_message_text(
-        """
+        await query.edit_message_text(
+            """
 👑 <b>MIGUL PRO - VN</b>
 
 🔥 Migul FF Pro dành cho khách hàng VN
@@ -352,16 +353,17 @@ elif query.data == "product_migul_pro":
 
 💰 Chọn thời hạn:
 """,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
 
 
-  # ==========================
-# LIÊN QUÂN
-# ==========================
+    # ==========================
+    # LIÊN QUÂN
+    # ==========================
 
-elif query.data == "product_lq":
+    elif query.data == "product_lq":
+
         keyboard = [
             [
                 InlineKeyboardButton(
@@ -425,7 +427,8 @@ elif query.data == "product_lq":
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
 
-    #    # ==========================
+
+    # ==========================
     # 8 BALL
     # ==========================
 
@@ -452,6 +455,54 @@ elif query.data == "product_lq":
 
 💰 Giá: <b>120.000đ</b>
 """,
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    # ==========================
+    # NẠP TIỀN MOMO
+    # ==========================
+
+    elif query.data == "deposit":
+
+        user_id = query.from_user.id
+
+        code = create_deposit_code(user_id)
+
+        text = f"""
+💰 <b>NẠP TIỀN QUA MOMO</b>
+
+📱 Ví MoMo:
+0375942325
+
+👤 Chủ ví:
+THACH HUYNH CUONG
+
+💵 Nội dung chuyển khoản:
+
+<code>{code}</code>
+
+⚠️ Vui lòng ghi đúng nội dung.
+"""
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "✅ Tôi đã chuyển tiền",
+                    callback_data="check_payment"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            text,
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
