@@ -2,14 +2,20 @@ from telegram import (
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-import os
-from database import get_balance, remove_balance, create_order
 )
 
 from telegram.ext import ContextTypes
 
 import os
 import qrcode
+
+from database import (
+    get_balance,
+    remove_balance,
+    create_order,
+)
+
+from momo import create_deposit_code
 
 # ==========================
 # TẠO QR
@@ -325,63 +331,38 @@ async def buttons(
     # NẠP TIỀN
     # ==========================
 
+    async def button_handler(update, context):
+    query = update.callback_query
+    await query.answer()
+
+    if query.data == "menu":
+        ...
+
     elif query.data == "deposit":
 
-        qr_path = create_qr(query.from_user.id)
+        user_id = query.from_user.id
 
-        caption = f"""
-💳 <b>NẠP TIỀN HCUONGIOS STORE</b>
+        code = create_deposit_code(user_id)
 
-━━━━━━━━━━━━━━
+        text = f"""
+💰 <b>NẠP TIỀN QUA MOMO</b>
 
-🏦 <b>Ngân hàng:</b> VIETCOMBANK
+📱 Ví MoMo:
+0375942325
 
-👤 <b>Chủ tài khoản:</b>
+👤 Chủ ví:
 THACH HUYNH CUONG
 
-💳 <b>Số tài khoản:</b>
+💵 Nội dung chuyển khoản:
+<code>{code}</code>
 
-<code>1052960029</code>
-
-━━━━━━━━━━━━━━
-
-📝 <b>Nội dung chuyển khoản:</b>
-
-<code>HCUONGIOS {query.from_user.id}</code>
-
-━━━━━━━━━━━━━━
-
-💰 Nạp tối thiểu: <b>10.000đ</b>
-
-⚠️ Chuyển khoản đúng nội dung để hệ thống tự nhận.
-
-✅ Sau khi tiền vào sẽ cộng số dư.
-
-━━━━━━━━━━━━━━
+⚠️ Vui lòng ghi đúng nội dung để được cộng tiền.
 """
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "🔄 Kiểm tra",
-                    callback_data="check_payment"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
-        ]
-
-        with open(qr_path, "rb") as img:
-            await query.message.reply_photo(
-                photo=img,
-                caption=caption,
-                parse_mode="HTML",
-                reply_markup=InlineKeyboardMarkup(keyboard)
-            )
+        await query.message.edit_text(
+            text,
+            parse_mode="HTML"
+        )
 
 
     # ==========================
