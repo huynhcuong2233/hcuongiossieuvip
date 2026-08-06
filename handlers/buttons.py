@@ -488,7 +488,7 @@ THACH HUYNH CUONG
 
 <code>{code}</code>
 
-⚠️ Vui lòng quét QR hoặc ghi đúng nội dung.
+⚠️ Vui lòng ghi đúng nội dung.
 """
 
         keyboard = [
@@ -516,6 +516,16 @@ THACH HUYNH CUONG
         )
 
         await query.delete_message()
+
+    elif query.data == "check_payment":
+
+        await query.answer(
+            "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
+            show_alert=True
+        )
+
+    elif query.data == "history":
+        ...
     # ==========================
     # KIỂM TRA THANH TOÁN
     # ==========================
