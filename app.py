@@ -28,7 +28,11 @@ TOKEN = os.environ["BOT_TOKEN"]
 
 app = Flask(__name__)
 
-tg = Application.builder().token(TOKEN).
+tg = Application.builder().token(TOKEN).build()
+
+# Đăng ký handler
+tg.add_handler(CommandHandler("start", start))
+tg.add_handler(CallbackQueryHandler(buttons))
 # Khởi tạo bot một lần
 @app.before_request
 async def initialize_bot():
@@ -377,17 +381,11 @@ async def welcome_member(update, context):
 # ĐĂNG KÝ HANDLER
 # ==========================
 
-tg.add_handler(CommandHandler("start", start))
 tg.add_handler(CommandHandler("help", help_cmd))
 tg.add_handler(CommandHandler("id", id_cmd))
 tg.add_handler(CommandHandler("ping", ping_cmd))
 tg.add_handler(CommandHandler("shop", shop_cmd))
 tg.add_handler(CommandHandler("contact", contact_cmd))
-
-
-tg.add_handler(
-    CallbackQueryHandler(button)
-)
 
 
 tg.add_handler(
