@@ -507,14 +507,17 @@ THACH HUYNH CUONG
 
         qr_path = create_qr(user_id)
 
-        await query.message.reply_photo(
-            photo=open(qr_path, "rb"),
-            caption=text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+        qr_path = create_qr(user_id)
 
-        await query.delete_message()
+with open(qr_path, "rb") as photo:
+    await query.message.reply_photo(
+        photo=photo,
+        caption=text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+await query.delete_message()
 
     # ==========================
     # KIỂM TRA THANH TOÁN
