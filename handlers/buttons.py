@@ -166,55 +166,55 @@ async def buttons(
 
 
     # ==========================
-# CỬA HÀNG
-# ==========================
+    # CỬA HÀNG
+    # ==========================
 
-elif query.data == "shop":
+    elif query.data == "shop":
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "🔥 FF MIGUL • VN",
-                callback_data="product_ff"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⚔️ Liên Quân iOS",
-                callback_data="product_lq"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "🎮 PUBG iOS",
-                callback_data="product_pubg"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "🎱 8 Ball Pool",
-                callback_data="product_8ball"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="home"
-            )
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🔥 FF MIGUL • VN",
+                    callback_data="product_ff"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⚔️ Liên Quân iOS",
+                    callback_data="product_lq"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🎮 PUBG iOS",
+                    callback_data="product_pubg"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🎱 8 Ball Pool",
+                    callback_data="product_8ball"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
         ]
-    ]
 
-    await query.edit_message_text(
-        """
+        await query.edit_message_text(
+            """
 🛒 <b>CỬA HÀNG HCUONGIOS</b>
 
 👇 Chọn sản phẩm:
 """,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
 
-    
+
     # ==========================
     # FF MIGUL
     # ==========================
@@ -248,7 +248,7 @@ elif query.data == "shop":
 
 📦 <b>DANH MỤC: Migul FreeFire</b>
 
-Chọn sản phẩm bên dưới để xem chi tiết:
+Chọn sản phẩm:
 """,
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
