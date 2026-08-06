@@ -473,20 +473,16 @@ Chọn sản phẩm:
 
     elif query.data == "deposit":
 
-    user_id = query.from_user.id
+        user_id = query.from_user.id
+        code = create_deposit_code(user_id)
 
-    code = create_deposit_code(user_id)
-
-    text = f"""
-
+        text = f"""
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
-
 0375942325
 
 👤 Chủ ví:
-
 THACH HUYNH CUONG
 
 💵 Nội dung chuyển khoản:
@@ -494,53 +490,44 @@ THACH HUYNH CUONG
 <code>{code}</code>
 
 ⚠️ Vui lòng ghi đúng nội dung.
-
 """
 
-    keyboard = [
-
-        [
-
-            InlineKeyboardButton(
-
-                "✅ Tôi đã chuyển tiền",
-
-                callback_data="check_payment"
-
-            )
-
-        ],
-
-        [
-
-            InlineKeyboardButton(
-
-                "⬅️ Quay lại",
-
-                callback_data="home"
-
-            )
-
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "✅ Tôi đã chuyển tiền",
+                    callback_data="check_payment"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
         ]
 
-    ]
+        qr_path = create_qr(user_id)
 
-    qr_path = create_qr(user_id)
+        await query.message.reply_photo(
+            photo=open(qr_path, "rb"),
+            caption=text,
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
 
-    await query.message.reply_photo(
+        await query.delete_message()
 
-        photo=open(qr_path, "rb"),
+    # ==========================
+    # KIỂM TRA THANH TOÁN
+    # ==========================
 
-        caption=text,
+    elif query.data == "check_payment":
 
-        parse_mode="HTML",
-
-        reply_markup=InlineKeyboardMarkup(keyboard)
-
-    )
-
-    await query.delete_message()
-
+        await query.answer(
+            "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
+            show_alert=True
+        )
 
 # ==========================
 # KIỂM TRA THANH TOÁN
