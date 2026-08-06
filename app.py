@@ -20,6 +20,10 @@ from telegram.ext import (
 from handlers.start import start
 from handlers.buttons import buttons
 
+from database import create_tables
+
+create_tables()
+
 TOKEN = os.environ["BOT_TOKEN"]
 
 app = Flask(__name__)
