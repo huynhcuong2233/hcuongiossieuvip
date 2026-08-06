@@ -1,10 +1,28 @@
-from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
-
 from telegram.ext import ContextTypes
+import qrcode
+import os
+
+
+def create_qr(user_id):
+    bank = "VCB"
+    account = "1052960029"
+    name = "THACH HUYNH CUONG"
+    content = f"HCUONGIOS {user_id}"
+
+    qr_data = (
+        f"Ngân hàng: {bank}\n"
+        f"STK: {account}\n"
+        f"Chủ TK: {name}\n"
+        f"Nội dung: {content}"
+    )
+
+    os.makedirs("assets", exist_ok=True)
+
+    qr = qrcode.make(qr_data)
+    path = f"assets/qr_{user_id}.png"
+    qr.save(path)
+
+    return path
 
 
 async def main_menu(update, context):
@@ -69,65 +87,48 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
-    elif query.data == "shop":
-        text = """
-🛒 <b>CỬA HÀNG</b>
-
-📦 Chưa có sản phẩm.
-
-Admin sẽ cập nhật sau.
-"""
-
-        keyboard = [
-            [InlineKeyboardButton("⬅️ Quay lại", callback_data="home")]
-        ]
-
-        await query.edit_message_text(
-            text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard),
-        )
-
     elif query.data == "deposit":
 
-        caption = f"""
-💳 <b>NẠP TIỀN TỰ ĐỘNG</b>
+    qr_path = create_qr(query.from_user.id)
+
+    caption = f"""
+💳 <b>NẠP TIỀN HCUONGIOS VIP</b>
 
 🏦 <b>Ngân hàng:</b> VIETCOMBANK
-👤 <b>Chủ tài khoản:</b> THACH HUYNH CUONG
 💳 <b>Số tài khoản:</b> 1052960029
+👤 <b>Chủ tài khoản:</b> THACH HUYNH CUONG
 
 ━━━━━━━━━━━━━━
 
 📝 <b>Nội dung chuyển khoản:</b>
 
-<code>FF{query.from_user.id}</code>
+<code>HCUONGIOS {query.from_user.id}</code>
 
-💰 Tối thiểu: <b>10.000đ</b>
+💰 Tối thiểu: 10.000đ
 
-⚡ Sau khi chuyển khoản đúng nội dung, hệ thống sẽ tự động cộng tiền.
+⚡ Chuyển khoản đúng nội dung để hệ thống nhận diện.
 
 ━━━━━━━━━━━━━━
 
-❗ Không sửa nội dung chuyển khoản.
+✅ Quét QR để thanh toán
 """
 
-        keyboard = [
-            [
-                InlineKeyboardButton("🔄 Kiểm tra", callback_data="check_payment"),
-            ],
-            [
-                InlineKeyboardButton("⬅️ Quay lại", callback_data="home"),
-            ],
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="home"
+            )
         ]
+    ]
 
+    with open(qr_path, "rb") as img:
         await query.message.reply_photo(
-            photo=open("assets/qr_mb.jpg", "rb"),
+            photo=img,
             caption=caption,
             parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard),
+            reply_markup=InlineKeyboardMarkup(keyboard)
         )
-
     elif query.data == "history":
         text = """
 📜 <b>LỊCH SỬ</b>
