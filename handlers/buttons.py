@@ -8,6 +8,7 @@ from telegram.ext import ContextTypes
 
 
 async def main_menu(update, context):
+
     keyboard = [
         [
             InlineKeyboardButton("👤 Tài khoản", callback_data="account"),
@@ -26,6 +27,10 @@ async def main_menu(update, context):
 🏪 <b>HCUONGIOS STORE</b>
 
 👋 Chào mừng bạn!
+
+💎 Dịch vụ API Premium
+⚡ Kích hoạt nhanh
+🛡️ Hỗ trợ khách hàng
 
 👇 Chọn chức năng:
 """
