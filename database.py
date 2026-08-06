@@ -162,3 +162,17 @@ def get_orders(user_id):
     conn.close()
 
     return rows
+    def deposit_exists(content):
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute(
+        "SELECT id FROM deposits WHERE content=?",
+        (content,)
+    )
+
+    row = cur.fetchone()
+
+    conn.close()
+
+    return row is not None
