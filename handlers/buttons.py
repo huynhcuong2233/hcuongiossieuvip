@@ -1,4 +1,11 @@
+from telegram import (
+    Update,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+)
+
 from telegram.ext import ContextTypes
+
 import qrcode
 import os
 
@@ -62,10 +69,11 @@ async def main_menu(update, context):
 
 async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
+        await query.answer()
 
-    # giữ toàn bộ code xử lý nút của bạn ở dưới đây
+    # Tài khoản
     if query.data == "account":
+
         text = f"""
 👤 <b>TÀI KHOẢN</b>
 
@@ -78,7 +86,12 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 """
 
         keyboard = [
-            [InlineKeyboardButton("⬅️ Quay lại", callback_data="home")]
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
         ]
 
         await query.edit_message_text(
@@ -87,7 +100,9 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
-        elif query.data == "deposit":
+
+    # Nạp tiền
+    elif query.data == "deposit":
 
         qr_path = create_qr(query.from_user.id)
 
