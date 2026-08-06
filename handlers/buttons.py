@@ -510,6 +510,9 @@ THACH HUYNH CUONG
         qr_path = create_qr(user_id)
 
 with open(qr_path, "rb") as photo:
+    qr_path = create_qr(user_id)
+
+with open(qr_path, "rb") as photo:
     await query.message.reply_photo(
         photo=photo,
         caption=text,
