@@ -466,7 +466,6 @@ Chọn sản phẩm:
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
 
-
     # ==========================
     # NẠP TIỀN MOMO
     # ==========================
@@ -489,7 +488,7 @@ THACH HUYNH CUONG
 
 <code>{code}</code>
 
-⚠️ Vui lòng ghi đúng nội dung.
+⚠️ Vui lòng quét QR hoặc ghi đúng nội dung.
 """
 
         keyboard = [
@@ -517,7 +516,6 @@ THACH HUYNH CUONG
         )
 
         await query.delete_message()
-
     # ==========================
     # KIỂM TRA THANH TOÁN
     # ==========================
