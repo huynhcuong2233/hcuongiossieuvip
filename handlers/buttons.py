@@ -7,10 +7,41 @@ from telegram import (
 from telegram.ext import ContextTypes
 
 
+async def main_menu(update, context):
+    keyboard = [
+        [
+            InlineKeyboardButton("👤 Tài khoản", callback_data="account"),
+            InlineKeyboardButton("🛒 Cửa hàng", callback_data="shop"),
+        ],
+        [
+            InlineKeyboardButton("💳 Nạp tiền", callback_data="deposit"),
+            InlineKeyboardButton("📜 Lịch sử", callback_data="history"),
+        ],
+        [
+            InlineKeyboardButton("☎️ Hỗ trợ", callback_data="support"),
+        ],
+    ]
+
+    text = """
+🏪 <b>HCUONGIOS STORE</b>
+
+👋 Chào mừng bạn!
+
+👇 Chọn chức năng:
+"""
+
+    await update.message.reply_text(
+        text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
 async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
+    # giữ toàn bộ code xử lý nút của bạn ở dưới đây
     if query.data == "account":
         text = f"""
 👤 <b>TÀI KHOẢN</b>
