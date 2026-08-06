@@ -87,11 +87,11 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
-    elif query.data == "deposit":
+        elif query.data == "deposit":
 
-    qr_path = create_qr(query.from_user.id)
+        qr_path = create_qr(query.from_user.id)
 
-    caption = f"""
+        caption = f"""
 💳 <b>NẠP TIỀN HCUONGIOS VIP</b>
 
 🏦 <b>Ngân hàng:</b> VIETCOMBANK
@@ -104,7 +104,7 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 <code>HCUONGIOS {query.from_user.id}</code>
 
-💰 Tối thiểu: 10.000đ
+💰 <b>Tối thiểu:</b> 10.000đ
 
 ⚡ Chuyển khoản đúng nội dung để hệ thống nhận diện.
 
@@ -113,22 +113,22 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 ✅ Quét QR để thanh toán
 """
 
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="home"
-            )
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
         ]
-    ]
 
-    with open(qr_path, "rb") as img:
-        await query.message.reply_photo(
-            photo=img,
-            caption=caption,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+        with open(qr_path, "rb") as img:
+            await query.message.reply_photo(
+                photo=img,
+                caption=caption,
+                parse_mode="HTML",
+                reply_markup=InlineKeyboardMarkup(keyboard)
+            )
     elif query.data == "history":
         text = """
 📜 <b>LỊCH SỬ</b>
