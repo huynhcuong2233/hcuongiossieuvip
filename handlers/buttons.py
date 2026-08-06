@@ -121,7 +121,6 @@ async def main_menu(update, context):
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-
 # ==========================
 # CALLBACK BUTTON
 # ==========================
