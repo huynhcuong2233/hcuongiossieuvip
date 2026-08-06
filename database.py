@@ -1,13 +1,15 @@
 import sqlite3
+import os
 
 DB_NAME = "data/database.db"
 
 
 def connect():
+    os.makedirs("data", exist_ok=True)
     return sqlite3.connect(DB_NAME)
 
 
-def create_database():
+def create_tables():
     conn = connect()
     cur = conn.cursor()
 
@@ -87,10 +89,7 @@ def get_balance(user_id):
 
     conn.close()
 
-    if row:
-        return row[0]
-
-    return 0
+    return row[0] if row else 0
 
 
 def add_balance(user_id, amount):
@@ -133,6 +132,3 @@ def add_deposit(user_id, amount, content, status="pending"):
 
     conn.commit()
     conn.close()
-
-
-create_database()
