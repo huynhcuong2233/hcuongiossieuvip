@@ -1,20 +1,15 @@
 import os
+import threading
+
 from flask import Flask, request
 
-from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
+from telegram import Update
 
 from telegram.ext import (
     Application,
     CommandHandler,
     CallbackQueryHandler,
-    MessageHandler,
     ChatMemberHandler,
-    ContextTypes,
-    filters,
 )
 
 from handlers.start import start
@@ -23,9 +18,24 @@ from handlers.admin import admin_handlers
 
 from database import setup_database
 
+
+# ==========================
+# DATABASE
+# ==========================
+
 setup_database()
 
+
+# ==========================
+# TOKEN
+# ==========================
+
 TOKEN = os.environ["BOT_TOKEN"]
+
+
+# ==========================
+# FLASK
+# ==========================
 
 app = Flask(__name__)
 
@@ -35,15 +45,27 @@ def home():
     return "✅ HCUONGIOS BOT ONLINE"
 
 
+# ==========================
+# TELEGRAM BOT
+# ==========================
+
 tg = Application.builder().token(TOKEN).build()
-from telegram.ext import ChatMemberHandler
+
+
+# ==========================
+# CHÀO THÀNH VIÊN
+# ==========================
 
 async def welcome_member(update, context):
+
+    if not update.chat_member:
+        return
 
     member = update.chat_member
 
     old = member.old_chat_member.status
     new = member.new_chat_member.status
+
 
     if old in ["left", "kicked"] and new == "member":
 
@@ -59,10 +81,45 @@ async def welcome_member(update, context):
             ),
             parse_mode="HTML"
         )
-# Đăng ký handler
-tg.add_handler(CommandHandler("start", start))
-tg.add_handler(CallbackQueryHandler(buttons))
 
+
+# ==========================
+# HANDLER
+# ==========================
+
+tg.add_handler(
+    CommandHandler("start", start)
+)
+
+tg.add_handler(
+    CallbackQueryHandler(buttons)
+)
+
+
+for handler in admin_handlers():
+    tg.add_handler(handler)
+
+
+tg.add_handler(
+    ChatMemberHandler(
+        welcome_member,
+        ChatMemberHandler.CHAT_MEMBER
+    )
+)
+
+
+# ==========================
+# CHẠY BOT NỀN
+# ==========================
+
+def run_bot():
+    tg.run_polling()
+
+
+threading.Thread(
+    target=run_bot,
+    daemon=True
+).start()
 # ==========================
 # ADMIN DUYỆT NẠP MOMO
 # ==========================
