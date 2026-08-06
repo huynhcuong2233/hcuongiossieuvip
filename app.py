@@ -47,12 +47,7 @@ async def initialize_bot():
 def home():
     return "✅ HCUONGIOS BOT ONLINE"
 
-# Webhook Telegram
-@app.post(f"/{TOKEN}")
-async def webhook():
-    update = Update.de_json(request.get_json(force=True), tg.bot)
-    await tg.process_update(update)
-    return "OK"
+
 
 if __name__ == "__main__":
     app.run(
@@ -432,6 +427,3 @@ async def webhook():
     return "OK"
 
 
-@app.get("/")
-def home():
-    return "HCUONGIOS VIP ONLINE"
