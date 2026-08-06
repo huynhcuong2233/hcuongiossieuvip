@@ -207,6 +207,153 @@ async def buttons(
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
+        
+# ==========================
+# FF MIGUL
+# ==========================
+
+elif query.data == "product_ff":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⭐ Migul Lite - VN",
+                callback_data="product_migul_lite"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "👑 Migul Pro - VN",
+                callback_data="product_migul_pro"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="shop"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+🔥 <b>FF MIGUL • VN</b>
+
+📦 <b>DANH MỤC: Migul FreeFire</b>
+
+Chọn sản phẩm bên dưới để xem chi tiết:
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
+# ==========================
+# MIGUL LITE
+# ==========================
+
+elif query.data == "product_migul_lite":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⏱️ 1 ngày | 50.000đ",
+                callback_data="buy_migul_lite_1d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⏱️ 7 ngày | 150.000đ",
+                callback_data="buy_migul_lite_7d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⏱️ 30 ngày | 350.000đ",
+                callback_data="buy_migul_lite_30d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="product_ff"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+⭐ <b>MIGUL LITE - VN</b>
+
+🔥 Migul FF Lite dành cho khách hàng VN
+
+📱 Cài đặt IPA
+✅ Hỗ trợ iOS 16 - 26.6
+
+🚀 Giao hàng: Tự động
+
+💰 Chọn thời hạn:
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+
+# ==========================
+# MIGUL PRO
+# ==========================
+
+elif query.data == "product_migul_pro":
+
+    keyboard = [
+        [
+            InlineKeyboardButton(
+                "⏱️ 1 giờ | 10.000đ",
+                callback_data="buy_migul_pro_1h"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⏱️ 1 ngày | 65.000đ",
+                callback_data="buy_migul_pro_1d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⏱️ 7 ngày | 215.000đ",
+                callback_data="buy_migul_pro_7d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⏱️ 30 ngày | 450.000đ",
+                callback_data="buy_migul_pro_30d"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="product_ff"
+            )
+        ]
+    ]
+
+    await query.edit_message_text(
+        """
+👑 <b>MIGUL PRO - VN</b>
+
+🔥 Migul FF Pro dành cho khách hàng VN
+
+📱 Cài đặt IPA
+✅ Hỗ trợ iOS 16 - 26.6
+
+🚀 Giao hàng: Tự động
+
+💰 Chọn thời hạn:
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
 
 
     # ==========================
