@@ -31,10 +31,12 @@ def create_deposit(user_id, amount, content):
     INSERT INTO deposits(
         user_id,
         amount,
-        content
+        content,
+        status
     )
-    VALUES(?,?,?)
-    """, (
+    VALUES(?,?,?,'pending')
+    """,
+    (
         user_id,
         amount,
         content
@@ -51,7 +53,11 @@ def deposit_exists(content):
     cur = conn.cursor()
 
     cur.execute(
-        "SELECT id FROM deposits WHERE content=?",
+        """
+        SELECT id
+        FROM deposits
+        WHERE content=?
+        """,
         (content,)
     )
 
@@ -68,40 +74,52 @@ def confirm_deposit(content):
     conn = connect()
     cur = conn.cursor()
 
+
     cur.execute("""
     SELECT user_id, amount
     FROM deposits
     WHERE content=?
     AND status='pending'
-    """, (content,))
+    """,
+    (content,))
+
 
     row = cur.fetchone()
 
-    if row:
 
-        user_id, amount = row
+    if not row:
+        conn.close()
+        return False
 
-        cur.execute("""
-        UPDATE users
-        SET balance = balance + ?,
-            total_deposit = total_deposit + ?
-        WHERE user_id=?
-        """,
-        (
-            amount,
-            amount,
-            user_id
-        ))
 
-        cur.execute("""
-        UPDATE deposits
-        SET status='done'
-        WHERE content=?
-        """,
-        (content,))
+
+    user_id, amount = row
+
+
+    cur.execute("""
+    UPDATE users
+    SET
+        balance = balance + ?,
+        total_deposit = total_deposit + ?
+    WHERE user_id=?
+    """,
+    (
+        amount,
+        amount,
+        user_id
+    ))
+
+
+    cur.execute("""
+    UPDATE deposits
+    SET status='done'
+    WHERE content=?
+    """,
+    (content,))
 
 
     conn.commit()
     conn.close()
 
-    return row
+
+    return True
