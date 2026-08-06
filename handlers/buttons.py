@@ -143,6 +143,231 @@ async def buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         text = """
 🛒 <b>CỬA HÀNG</b>
+    elif query.data == "product_ff":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⚡ Migul Lite - VN",
+                    callback_data="buy_migul_lite"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🔥 Migul Pro - VN",
+                    callback_data="buy_migul_pro"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        text = """
+🔥 <b>MIGUL FREEFIRE • VN</b>
+
+Chọn sản phẩm bạn muốn mua:
+
+━━━━━━━━━━━━━━
+
+⚡ Migul Lite - VN
+🔥 Migul Pro - VN
+
+👇 Chọn gói:
+"""
+
+        await query.edit_message_text(
+            text,
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_lq":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⚔️ Liên Quân iOS",
+                    callback_data="buy_lienquan"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+⚔️ <b>LIÊN QUÂN iOS</b>
+
+Chọn sản phẩm muốn mua:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_8ball":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🎱 8 Ball Pool iOS",
+                    callback_data="buy_8ball"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🎱 <b>8 BALL POOL iOS</b>
+
+Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_tipa":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🚀 TIPA FF External",
+                    callback_data="buy_tipa"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🚀 <b>TIPA FF EXTERNAL</b>
+
+Hỗ trợ TrollStore.
+
+Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_global":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🌍 Migul Global",
+                    callback_data="buy_global"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🌍 <b>MIGUL GLOBAL</b>
+
+Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_pubg":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🎮 PUBG Dolphin IOS",
+                    callback_data="buy_pubg"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🎮 <b>PUBG DOLPHIN IOS</b>
+
+Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "product_flork":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "🔥 Flork External FF MAX",
+                    callback_data="buy_flork"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="shop"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🔥 <b>FLORK EXTERNAL FF MAX</b>
+
+Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    elif query.data == "free_key":
+
+        await query.edit_message_text(
+            """
+🎁 <b>KEY TEST MIỄN PHÍ</b>
+
+Bạn có thể nhận key test tại đây.
+
+⏳ Hệ thống đang xử lý...
+""",
+            parse_mode="HTML"
+        )
 
 🚀 API Premium
 
@@ -315,8 +540,23 @@ Chọn chức năng bên dưới.
 
 
     else:
+elif query.data == "shop":
+    # menu sản phẩm
 
-        await query.answer(
-            "⚠️ Chức năng đang phát triển.",
+
+elif query.data == "product_ff":
+    # Migul FreeFire Lite/Pro
+
+
+elif query.data == "product_lq":
+    # Liên Quân
+
+
+elif query.data == "product_pubg":
+    # PUBG
+
+
+else:
+    await query.answer("Chức năng đang phát triển.")
             show_alert=True
         )
