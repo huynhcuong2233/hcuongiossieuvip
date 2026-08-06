@@ -24,24 +24,23 @@ from momo import create_deposit_code
 
 def create_qr(user_id):
 
-    bank = "VIETCOMBANK"
-    account = "1052960029"
+    momo_number = "0375942325"
     name = "THACH HUYNH CUONG"
 
     content = f"HCUONGIOS {user_id}"
 
-    qr = qrcode.make(
-        f"""
-BANK:{bank}
-ACCOUNT:{account}
+    qr_data = f"""
+MoMo
+PHONE:{momo_number}
 NAME:{name}
 CONTENT:{content}
 """
-    )
+
+    qr = qrcode.make(qr_data)
 
     os.makedirs("assets", exist_ok=True)
 
-    path = f"assets/qr_{user_id}.png"
+    path = f"assets/momo_{user_id}.png"
 
     qr.save(path)
 
@@ -474,17 +473,20 @@ Chọn sản phẩm:
 
     elif query.data == "deposit":
 
-        user_id = query.from_user.id
+    user_id = query.from_user.id
 
-        code = create_deposit_code(user_id)
+    code = create_deposit_code(user_id)
 
-        text = f"""
+    text = f"""
+
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
+
 0375942325
 
 👤 Chủ ví:
+
 THACH HUYNH CUONG
 
 💵 Nội dung chuyển khoản:
@@ -492,40 +494,64 @@ THACH HUYNH CUONG
 <code>{code}</code>
 
 ⚠️ Vui lòng ghi đúng nội dung.
+
 """
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "✅ Tôi đã chuyển tiền",
-                    callback_data="check_payment"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
+    keyboard = [
+
+        [
+
+            InlineKeyboardButton(
+
+                "✅ Tôi đã chuyển tiền",
+
+                callback_data="check_payment"
+
+            )
+
+        ],
+
+        [
+
+            InlineKeyboardButton(
+
+                "⬅️ Quay lại",
+
+                callback_data="home"
+
+            )
+
         ]
 
-        await query.edit_message_text(
-            text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
+    ]
+
+    qr_path = create_qr(user_id)
+
+    await query.message.reply_photo(
+
+        photo=open(qr_path, "rb"),
+
+        caption=text,
+
+        parse_mode="HTML",
+
+        reply_markup=InlineKeyboardMarkup(keyboard)
+
+    )
+
+    await query.delete_message()
 
 
-    # ==========================
-    # KIỂM TRA THANH TOÁN
-    # ==========================
+# ==========================
+# KIỂM TRA THANH TOÁN
+# ==========================
 
-    elif query.data == "check_payment":
+elif query.data == "check_payment":
 
-        await query.answer(
-            "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
-            show_alert=True
-        )
+    await query.answer(
+        "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
+        show_alert=True
+    )
 
 
     # ==========================
