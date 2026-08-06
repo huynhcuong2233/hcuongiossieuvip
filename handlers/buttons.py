@@ -106,7 +106,17 @@ async def main_menu(update, context):
 👇 Chọn chức năng bên dưới.
 """
 
+    if update.message:
+
     await update.message.reply_text(
+        text=text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard)
+    )
+
+else:
+
+    await update.callback_query.edit_message_text(
         text=text,
         parse_mode="HTML",
         reply_markup=InlineKeyboardMarkup(keyboard)
@@ -629,7 +639,14 @@ THACH HUYNH CUONG
     ("Migul Pro VN - 30 ngày", 450000),
 }
 
-        product_name, price = products[query.data]
+        if query.data not in products:
+    await query.answer(
+        "❌ Sản phẩm không tồn tại",
+        show_alert=True
+    )
+    return
+
+product_name, price = products[query.data]
 
         balance = get_balance(
             query.from_user.id
