@@ -28,12 +28,7 @@ TOKEN = os.environ["BOT_TOKEN"]
 
 app = Flask(__name__)
 
-tg = Application.builder().token(TOKEN).build()
-
-# Đăng ký handler
-tg.add_handler(CommandHandler("start", start))
-tg.add_handler(CallbackQueryHandler(buttons))
-
+tg = Application.builder().token(TOKEN).
 # Khởi tạo bot một lần
 @app.before_request
 async def initialize_bot():
