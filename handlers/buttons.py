@@ -17,6 +17,7 @@ from database import (
 
 from momo import create_deposit_code
 
+
 # ==========================
 # TẠO QR
 # ==========================
@@ -93,7 +94,7 @@ async def main_menu(update, context):
 ━━━━━━━━━━━━━━━━━━
 
 👋 Xin chào
-<b>{update.effective_user.first_name}</b>
+<b>{update.effective_user.first_name or 'Bạn'}</b>
 
 💎 Dịch vụ API Premium
 ⚡ Kích hoạt tự động
@@ -125,12 +126,90 @@ async def buttons(
 
     await query.answer()
 
+
     # ==========================
     # TÀI KHOẢN
     # ==========================
-    elif query.data == "product_ff":
-    ...
-        # ==========================
+
+    if query.data == "account":
+
+        balance = get_balance(
+            query.from_user.id
+        )
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            f"""
+👤 <b>TÀI KHOẢN</b>
+
+━━━━━━━━━━━━━━
+
+🆔 ID:
+<code>{query.from_user.id}</code>
+
+💰 Số dư:
+<b>{balance:,}đ</b>
+
+━━━━━━━━━━━━━━
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    # ==========================
+    # CỬA HÀNG
+    # ==========================
+
+    elif query.data == "shop":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⚔️ Liên Quân iOS",
+                    callback_data="product_lq"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🎮 PUBG iOS",
+                    callback_data="product_pubg"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "🎱 8 Ball Pool",
+                    callback_data="product_8ball"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+🛒 <b>CỬA HÀNG HCUONGIOS</b>
+
+👇 Chọn sản phẩm:
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    # ==========================
     # LIÊN QUÂN
     # ==========================
 
@@ -159,12 +238,11 @@ async def buttons(
 
 🛡️ Bảo hành
 ⚡ Kích hoạt tự động
-
-👇 Nhấn nút bên dưới để mua.
 """,
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
+
 
     # ==========================
     # PUBG
@@ -195,14 +273,12 @@ async def buttons(
 
 ⚡ Hỗ trợ iPhone
 🛡️ Bảo hành
-
-👇 Nhấn nút để mua.
 """,
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
 
-    # ==========================
+    #    # ==========================
     # 8 BALL
     # ==========================
 
@@ -228,116 +304,23 @@ async def buttons(
 🎱 <b>8 BALL POOL iOS</b>
 
 💰 Giá: <b>120.000đ</b>
-
-👇 Nhấn để mua.
 """,
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
 
-    # ==========================
-    # GLOBAL
-    # ==========================
-
-    elif query.data == "product_global":
-
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "🌍 Migul Global | 250.000đ",
-                    callback_data="buy_global"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="shop"
-                )
-            ]
-        ]
-
-        await query.edit_message_text(
-            """
-🌍 <b>MIGUL GLOBAL</b>
-
-💰 Giá: <b>250.000đ</b>
-
-👇 Chọn mua.
-""",
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
 
     # ==========================
-    # FLORK
+    # NẠP TIỀN MOMO
     # ==========================
 
-    elif query.data == "product_flork":
+    elif query.data == "deposit":
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "🔥 Flork FF MAX | 300.000đ",
-                    callback_data="buy_flork"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="shop"
-                )
-            ]
-        ]
+        user_id = query.from_user.id
 
-        await query.edit_message_text(
-            """
-🔥 <b>FLORK EXTERNAL FF MAX</b>
+        code = create_deposit_code(user_id)
 
-💰 Giá: <b>300.000đ</b>
-
-👇 Nhấn để mua.
-""",
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
-
-    # ==========================
-    # KEY TEST
-    # ==========================
-
-    elif query.data == "free_key":
-
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="shop"
-                )
-            ]
-        ]
-
-        await query.edit_message_text(
-            """
-🎁 <b>KEY TEST MIỄN PHÍ</b>
-
-⚡ Chức năng sẽ sớm được cập nhật.
-
-❤️ Cảm ơn bạn đã sử dụng HCUONGIOS STORE.
-""",
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
-    # ==========================
-# NẠP TIỀN
-# ==========================
-
-elif query.data == "deposit":
-
-    user_id = query.from_user.id
-
-    code = create_deposit_code(user_id)
-
-    text = f"""
+        text = f"""
 💰 <b>NẠP TIỀN QUA MOMO</b>
 
 📱 Ví MoMo:
@@ -347,50 +330,19 @@ elif query.data == "deposit":
 THACH HUYNH CUONG
 
 💵 Nội dung chuyển khoản:
+
 <code>{code}</code>
 
-⚠️ Vui lòng ghi đúng nội dung để được cộng tiền.
-"""
-
-    keyboard = [
-        [
-            InlineKeyboardButton(
-                "✅ Tôi đã chuyển tiền",
-                callback_data="check_payment"
-            )
-        ],
-        [
-            InlineKeyboardButton(
-                "⬅️ Quay lại",
-                callback_data="home"
-            )
-        ]
-    ]
-
-    await query.edit_message_text(
-        text,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard)
-    )
-
-
-    # ==========================
-    # LỊCH SỬ
-    # ==========================
-
-    elif query.data == "history":
-
-        text = """
-📜 <b>LỊCH SỬ GIAO DỊCH</b>
-
-━━━━━━━━━━━━━━
-
-❌ Chưa có giao dịch nào.
-
-━━━━━━━━━━━━━━
+⚠️ Vui lòng ghi đúng nội dung.
 """
 
         keyboard = [
+            [
+                InlineKeyboardButton(
+                    "✅ Tôi đã chuyển tiền",
+                    callback_data="check_payment"
+                )
+            ],
             [
                 InlineKeyboardButton(
                     "⬅️ Quay lại",
@@ -401,94 +353,6 @@ THACH HUYNH CUONG
 
         await query.edit_message_text(
             text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
-
-
-    # ==========================
-    # HỖ TRỢ
-    # ==========================
-
-    elif query.data == "support":
-
-        text = """
-☎️ <b>HỖ TRỢ KHÁCH HÀNG</b>
-
-👤 Admin
-
-@thuynhcuong2510
-
-⏰ Online mỗi ngày.
-
-━━━━━━━━━━━━━━
-
-❤️ Cảm ơn bạn đã sử dụng HCUONGIOS STORE.
-"""
-
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "⬅️ Quay lại",
-                    callback_data="home"
-                )
-            ]
-        ]
-
-        await query.edit_message_text(
-            text,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
-        )
-
-
-    # ==========================
-    # HOME
-    # ==========================
-
-    elif query.data == "home":
-
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "👤 Tài khoản",
-                    callback_data="account"
-                ),
-                InlineKeyboardButton(
-                    "🛒 Cửa hàng",
-                    callback_data="shop"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "💳 Nạp tiền",
-                    callback_data="deposit"
-                ),
-                InlineKeyboardButton(
-                    "📜 Lịch sử",
-                    callback_data="history"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "☎️ Hỗ trợ",
-                    callback_data="support"
-                )
-            ]
-        ]
-
-        await query.edit_message_text(
-            f"""
-🏪 <b>HCUONGIOS STORE</b>
-
-👋 Xin chào <b>{query.from_user.first_name}</b>
-
-💎 API Premium
-⚡ Kích hoạt nhanh
-🛡️ Hỗ trợ 24/7
-
-👇 Chọn chức năng bên dưới.
-""",
             parse_mode="HTML",
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
@@ -501,9 +365,79 @@ THACH HUYNH CUONG
     elif query.data == "check_payment":
 
         await query.answer(
-            "⚠️ Chức năng chưa kết nối SePay.",
+            "⏳ Đã gửi yêu cầu kiểm tra. Chờ admin xác nhận.",
             show_alert=True
         )
+
+
+    # ==========================
+    # LỊCH SỬ
+    # ==========================
+
+    elif query.data == "history":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+📜 <b>LỊCH SỬ GIAO DỊCH</b>
+
+━━━━━━━━━━━━━━
+
+❌ Chưa có giao dịch.
+
+━━━━━━━━━━━━━━
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    # ==========================
+    # HỖ TRỢ
+    # ==========================
+
+    elif query.data == "support":
+
+        keyboard = [
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="home"
+                )
+            ]
+        ]
+
+        await query.edit_message_text(
+            """
+☎️ <b>HỖ TRỢ KHÁCH HÀNG</b>
+
+👤 Admin:
+@thuynhcuong2510
+
+⏰ Online mỗi ngày.
+""",
+            parse_mode="HTML",
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+    # ==========================
+    # HOME
+    # ==========================
+
+    elif query.data == "home":
+
+        await main_menu(update, context)
+
+
     # ==========================
     # MUA SẢN PHẨM
     # ==========================
@@ -511,38 +445,38 @@ THACH HUYNH CUONG
     elif query.data.startswith("buy_"):
 
         products = {
-            "buy_migul_lite": ("Migul Lite - VN", 100000),
-            "buy_migul_pro": ("Migul Pro - VN", 200000),
-            "buy_migul_vip": ("Migul VIP - VN", 300000),
             "buy_lq": ("Liên Quân iOS", 150000),
             "buy_pubg": ("PUBG Dolphin iOS", 180000),
-            "buy_global": ("Migul Global", 250000),
-            "buy_flork": ("Flork FF MAX", 300000),
             "buy_8ball": ("8 Ball Pool iOS", 120000),
         }
 
         product_name, price = products[query.data]
 
-        balance = get_balance(query.from_user.id)
+        balance = get_balance(
+            query.from_user.id
+        )
 
         if balance < price:
 
             await query.answer(
-                "❌ Số dư không đủ để mua sản phẩm.",
+                "❌ Số dư không đủ.",
                 show_alert=True
             )
             return
+
 
         remove_balance(
             query.from_user.id,
             price
         )
 
+
         api_key = (
             f"HCUONGIOS-"
             f"{query.from_user.id}-"
             f"{os.urandom(4).hex().upper()}"
         )
+
 
         create_order(
             query.from_user.id,
@@ -551,53 +485,28 @@ THACH HUYNH CUONG
             api_key
         )
 
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    "🛒 Tiếp tục mua",
-                    callback_data="shop"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    "🏠 Trang chủ",
-                    callback_data="home"
-                )
-            ]
-        ]
 
         await query.edit_message_text(
             f"""
 ✅ <b>MUA THÀNH CÔNG</b>
 
-━━━━━━━━━━━━━━
+📦 Sản phẩm:
+<b>{product_name}</b>
 
-📦 <b>Sản phẩm:</b>
-{product_name}
+💰 Giá:
+<b>{price:,}đ</b>
 
-💰 <b>Giá:</b>
-{price:,}đ
-
-🔑 <b>API KEY:</b>
+🔑 API KEY:
 
 <code>{api_key}</code>
-
-━━━━━━━━━━━━━━
-
-⚠️ Hãy lưu API Key cẩn thận.
 """,
-            parse_mode="HTML",
-            reply_markup=InlineKeyboardMarkup(keyboard)
+            parse_mode="HTML"
         )
 
-    # ==========================
-    # CHƯA CÓ CHỨC NĂNG
-    # ==========================
 
     else:
 
         await query.answer(
-            "🚧 Chức năng đang được cập nhật.",
+            "🚧 Chức năng đang cập nhật.",
             show_alert=True
         )
-        
