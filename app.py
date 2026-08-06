@@ -19,9 +19,9 @@ from telegram.ext import (
 
 from handlers.start import start
 from handlers.buttons import buttons
+from handlers.admin import admin_handlers
 
 from database import create_tables
-
 create_tables()
 
 TOKEN = os.environ["BOT_TOKEN"]
@@ -55,6 +55,17 @@ async def welcome_member(update, context):
 # Đăng ký handler
 tg.add_handler(CommandHandler("start", start))
 tg.add_handler(CallbackQueryHandler(buttons))
+
+# ==========================
+# ADMIN DUYỆT NẠP MOMO
+# ==========================
+
+from handlers.admin import admin_handlers
+
+for handler in admin_handlers():
+    tg.add_handler(handler)
+
+
 # Khởi tạo bot một lần
 @app.before_request
 def initialize_bot():
