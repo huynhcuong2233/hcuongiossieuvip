@@ -21,12 +21,19 @@ from handlers.start import start
 from handlers.buttons import buttons
 from handlers.admin import admin_handlers
 
-from database import create_tables
-create_tables()
+from database import setup_database
+
+setup_database()
 
 TOKEN = os.environ["BOT_TOKEN"]
 
 app = Flask(__name__)
+
+
+@app.route("/")
+def home():
+    return "✅ HCUONGIOS BOT ONLINE"
+
 
 tg = Application.builder().token(TOKEN).build()
 from telegram.ext import ChatMemberHandler
@@ -79,11 +86,6 @@ def initialize_bot():
         loop.run_until_complete(tg.start())
 
         app._initialized = True
-
-# Trang chủ
-@app.get("/")
-def home():
-    return "✅ HCUONGIOS BOT ONLINE"
 
 
 
@@ -333,10 +335,6 @@ async def button(update, context):
 # CÁC LỆNH BOT
 # ==========================
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await main_menu(update, context)
-
-
 async def help_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
@@ -375,14 +373,6 @@ async def contact_cmd(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👤 Admin HCUONGIOS VIP:\n"
         "@thuynhcuong2510"
-    )
-
-
-# Echo tin nhắn
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-    await update.message.reply_text(
-        update.message.text
     )
 
 
