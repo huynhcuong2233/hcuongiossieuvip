@@ -106,25 +106,6 @@ async def webhook():
 
     return "ok"
 
-
-# ==========================
-# START / STOP BOT
-# ==========================
-
-@app.before_serving
-async def startup():
-
-    await tg.initialize()
-    await tg.start()
-
-    print(
-        "🤖 HCUONGIOS BOT STARTED"
-    )
-
-
-@app.after_serving
-async def shutdown():
-
     await tg.stop()
     await tg.shutdown()
 
