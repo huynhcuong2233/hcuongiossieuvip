@@ -1,9 +1,7 @@
-from database import (
-    get_balance,
-    remove_balance,
-    create_order,
-    get_available_key,
-    use_key,
+from telegram import (
+    Update,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
 )
 
 from telegram.ext import ContextTypes
@@ -15,6 +13,8 @@ from database import (
     get_balance,
     remove_balance,
     create_order,
+    get_available_key,
+    use_key,
 )
 
 from momo import create_deposit_code
@@ -667,14 +667,16 @@ THACH HUYNH CUONG
         )
 
 
-        api_key = (
-            # Xác định loại key
+        # Xác định loại key
 
 if "Migul Pro" in product_name:
     plan = "PRO"
+
 else:
     plan = "BASIC"
 
+
+# Lấy key trong kho
 
 key_data = get_available_key(plan)
 
@@ -691,6 +693,8 @@ if not key_data:
 
 key_id, api_key = key_data
 
+
+# Đánh dấu key đã bán
 
 use_key(
     key_id,
