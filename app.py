@@ -77,60 +77,6 @@ async def welcome_member(update, context):
             parse_mode="HTML"
         )
 
-
-# ==========================
-# HANDLER
-# ==========================
-
-tg.add_handler(
-    CommandHandler("start", start)
-)
-
-tg.add_handler(
-    CallbackQueryHandler(buttons)
-)
-
-for handler in admin_handlers():
-    tg.add_handler(handler)
-
-tg.add_handler(
-    ChatMemberHandler(
-        welcome_member,
-        ChatMemberHandler.CHAT_MEMBER
-    )
-)
-
-
-# ==========================
-# WEBHOOK
-# ==========================
-
-@app.route("/webhook", methods=["POST"])
-async def webhook():
-
-    try:
-        data = request.get_json(force=True)
-
-        print("📩 TELEGRAM UPDATE:", data)
-
-        update = Update.de_json(
-            data,
-            tg.bot
-        )
-
-        await tg.process_update(update)
-
-        print("✅ UPDATE PROCESSED")
-
-        return "ok", 200
-
-    except Exception as e:
-
-        print("❌ WEBHOOK ERROR:", repr(e))
-
-        return "error", 500
-
-
 # ==========================
 # HANDLER
 # ==========================
