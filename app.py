@@ -1,5 +1,4 @@
 import os
-import threading
 
 from flask import Flask, request
 
@@ -17,8 +16,6 @@ from handlers.buttons import buttons
 from handlers.admin import admin_handlers
 
 from database import setup_database
-
-
 # ==========================
 # DATABASE
 # ==========================
@@ -114,11 +111,7 @@ tg.add_handler(
 
 import asyncio
 
-loop = asyncio.new_event_loop()
-asyncio.set_event_loop(loop)
-
-loop.run_until_complete(tg.initialize())
-loop.run_until_complete(tg.start())
+tg = Application.builder().token(TOKEN).build()
 # ==========================
 # ADMIN DUYỆT NẠP MOMO
 # ==========================
@@ -463,15 +456,33 @@ async def welcome_member(update, context):
 
 
 # ==========================
-# ĐĂNG KÝ HANDLER
+# COMMAND HANDLER
 # ==========================
 
-tg.add_handler(CommandHandler("help", help_cmd))
-tg.add_handler(CommandHandler("id", id_cmd))
-tg.add_handler(CommandHandler("ping", ping_cmd))
-tg.add_handler(CommandHandler("shop", shop_cmd))
-tg.add_handler(CommandHandler("contact", contact_cmd))
+tg.add_handler(
+    CommandHandler("help", help_cmd)
+)
 
+tg.add_handler(
+    CommandHandler("id", id_cmd)
+)
+
+tg.add_handler(
+    CommandHandler("ping", ping_cmd)
+)
+
+tg.add_handler(
+    CommandHandler("shop", shop_cmd)
+)
+
+tg.add_handler(
+    CommandHandler("contact", contact_cmd)
+)
+
+
+# ==========================
+# CHÀO THÀNH VIÊN
+# ==========================
 
 tg.add_handler(
     ChatMemberHandler(
