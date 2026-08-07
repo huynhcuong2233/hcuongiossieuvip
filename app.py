@@ -1,6 +1,8 @@
 import os
 
-from flask import Flask
+from flask import Flask, request
+
+from telegram import Update
 
 from telegram.ext import (
     Application,
@@ -47,8 +49,6 @@ for handler in admin_handlers():
 # WEBHOOK TELEGRAM
 # ==========================
 
-from telegram import Update
-
 @app.route("/webhook", methods=["POST"])
 async def webhook():
 
@@ -58,8 +58,6 @@ async def webhook():
         data,
         tg.bot
     )
-
-    await tg.initialize()
 
     await tg.process_update(update)
 
