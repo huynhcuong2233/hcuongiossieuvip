@@ -1,7 +1,9 @@
-from telegram import (
-    Update,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
+from database import (
+    get_balance,
+    remove_balance,
+    create_order,
+    get_available_key,
+    use_key,
 )
 
 from telegram.ext import ContextTypes
@@ -666,10 +668,34 @@ THACH HUYNH CUONG
 
 
         api_key = (
-            f"HCUONGIOS-"
-            f"{query.from_user.id}-"
-            f"{os.urandom(4).hex().upper()}"
-        )
+            # Xác định loại key
+
+if "Migul Pro" in product_name:
+    plan = "PRO"
+else:
+    plan = "BASIC"
+
+
+key_data = get_available_key(plan)
+
+
+if not key_data:
+
+    await query.answer(
+        "❌ Sản phẩm đã hết key.",
+        show_alert=True
+    )
+
+    return
+
+
+key_id, api_key = key_data
+
+
+use_key(
+    key_id,
+    query.from_user.id
+)
 
 
         create_order(
