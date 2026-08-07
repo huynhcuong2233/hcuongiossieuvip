@@ -1,16 +1,16 @@
 import sqlite3
-from datetime import datetime
 from config import DATABASE_NAME
+
 
 # ==========================
 # KẾT NỐI DATABASE
 # ==========================
 
-conn = sqlite3.connect(
-    DATABASE_NAME,
-    timeout=10,
-    check_same_thread=False
-)
+def connect():
+    return sqlite3.connect(
+        DATABASE_NAME,
+        check_same_thread=False
+    )
 
 
 # ==========================
