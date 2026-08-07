@@ -35,9 +35,22 @@ def setup_database():
     """)
 
 
-    # DEPOSITS
+      # DEPOSITS
 
-            cur.execute("""
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS deposits(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        amount INTEGER,
+        content TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
+    # ORDERS
+
+    cur.execute("""
     CREATE TABLE IF NOT EXISTS orders(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
@@ -49,18 +62,6 @@ def setup_database():
     """)
 
     # API KEYS
-
-    cur.execute("""
-    CREATE TABLE IF NOT EXISTS keys(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        api_key TEXT UNIQUE,
-        plan TEXT,
-        used INTEGER DEFAULT 0,
-        buyer_id INTEGER,
-        sold_time TIMESTAMP
-    )
-        """)
-        # API KEYS
 
     cur.execute("""
     CREATE TABLE IF NOT EXISTS keys(
