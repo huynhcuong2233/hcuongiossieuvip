@@ -12,7 +12,7 @@ ADMIN_ID = 8155433329  # Đổi thành Telegram ID của bạn
 
 async def approve_deposit(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-async def ten_ham(update, context):
+async def approve_deposit(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if update.effective_user.id != ADMIN_ID:
         await update.message.reply_text(
@@ -21,9 +21,10 @@ async def ten_ham(update, context):
         return
 
     if len(context.args) < 1:
-        await update.message.reply_text("Cách dùng:\n/duyet MÃ_NẠP")
+        await update.message.reply_text(
+            "Cách dùng:\n/duyet MÃ_NẠP"
+        )
         return
-
     content = context.args[0]
 
     result = confirm_deposit(content)
