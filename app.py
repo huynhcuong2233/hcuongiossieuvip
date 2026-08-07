@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, request
-
 from telegram import Update
 
 from telegram.ext import (
@@ -14,6 +13,15 @@ from telegram.ext import (
 from handlers.start import start
 from handlers.buttons import buttons
 from handlers.admin import admin_handlers
+
+from handlers.commands import (
+    help_cmd,
+    id_cmd,
+    ping_cmd,
+    shop_cmd,
+    contact_cmd,
+    welcome_member,
+)
 
 from database import setup_database
 # ==========================
@@ -380,7 +388,7 @@ async def button(update, context):
             "👤 @thuynhcuong2510",
             parse_mode="Markdown"
         )
-        # ==========================
+# ==========================
 # CÁC LỆNH BOT
 # ==========================
 
@@ -439,7 +447,6 @@ async def welcome_member(update, context):
     old = member.old_chat_member.status
     new = member.new_chat_member.status
 
-
     if old in ["left", "kicked"] and new == "member":
 
         user = member.new_chat_member.user
@@ -456,7 +463,7 @@ async def welcome_member(update, context):
 
 
 # ==========================
-# COMMAND HANDLER
+# CÁC LỆNH BOT
 # ==========================
 
 tg.add_handler(
@@ -490,7 +497,6 @@ tg.add_handler(
         ChatMemberHandler.CHAT_MEMBER
     )
 )
-
 
 # ==========================
 # WEBHOOK FLASK
