@@ -4,60 +4,41 @@ from telegram.ext import ContextTypes
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    user = update.effective_user
-
-    text = f"""
-<b>👑 HCUONGIOS VIP STORE</b>
-
-━━━━━━━━━━━━━━━━━━
-
-👋 Xin chào <b>{user.first_name}</b>
-
-🆔 <b>ID:</b> <code>{user.id}</code>
-💎 <b>Số dư:</b> <code>0đ</code>
-🔑 <b>KEY:</b> <code>0</code>
-
-━━━━━━━━━━━━━━━━━━
-
-✨ <b>Dịch vụ:</b>
-• 🔥 KEY Free Fire
-• 🍎 Dịch vụ iOS
-• ⚡ Giao hàng nhanh
-• 🛡️ Hỗ trợ 24/7
-
-━━━━━━━━━━━━━━━━━━
-
-👇 <b>Vui lòng chọn chức năng bên dưới.</b>
-"""
-
     keyboard = [
         [
-            InlineKeyboardButton("🛒 Mua KEY", callback_data="shop"),
             InlineKeyboardButton("💳 Nạp tiền", callback_data="deposit"),
+            InlineKeyboardButton("🛒 Mua KEY", callback_data="buy_key")
         ],
         [
-            InlineKeyboardButton("👤 Tài khoản", callback_data="account"),
-            InlineKeyboardButton("🔑 KEY của tôi", callback_data="mykey"),
+            InlineKeyboardButton("📥 Tải file", callback_data="download"),
+            InlineKeyboardButton("👑 VIP STORE", callback_data="vip_store")
         ],
         [
-            InlineKeyboardButton("📜 Lịch sử", callback_data="history"),
-            InlineKeyboardButton("☎️ Hỗ trợ", callback_data="support"),
-        ],
-        [
-            InlineKeyboardButton("📢 Kênh Telegram", url="https://t.me/hcuongios")
-        ],
+            InlineKeyboardButton("☎️ Liên hệ", callback_data="contact")
+        ]
     ]
 
-    try:
-    await update.message.reply_photo(
-        photo=open("assets/banner.jpg", "rb"),
-        caption=text,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
-except FileNotFoundError:
-    await update.message.reply_text(
-        text,
-        parse_mode="HTML",
-        reply_markup=InlineKeyboardMarkup(keyboard),
-    )
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    caption = """
+👑 <b>HCUONGIOS VIP STORE</b>
+
+🔥 Shop dịch vụ iOS Gaming Premium
+
+🍎 iOS
+💳 Nạp tiền tự động
+🛒 Mua KEY
+📥 Tải file
+
+🟢 <b>ONLINE 24/7</b>
+
+Chọn chức năng bên dưới 👇
+"""
+
+    with open("banner.jpg", "rb") as photo:
+        await update.message.reply_photo(
+            photo=photo,
+            caption=caption,
+            parse_mode="HTML",
+            reply_markup=reply_markup
+        )
