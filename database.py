@@ -379,19 +379,24 @@ def add_key(plan, api_key):
     conn.close()
 
 
-def get_free_key(plan):
+# ==========================
+# LẤY KEY CHƯA BÁN
+# ==========================
+
+def get_available_key(plan):
 
     conn = connect()
     cur = conn.cursor()
 
-    cur.execute("""
-    SELECT id, api_key
-    FROM keys
-    WHERE plan=?
-    AND used=0
-    ORDER BY id ASC
-    LIMIT 1
-    """, (plan,))
+    cur.execute(
+        """
+        SELECT id, api_key
+        FROM keys
+        WHERE plan=? AND used=0
+        LIMIT 1
+        """,
+        (plan,)
+    )
 
     row = cur.fetchone()
 
@@ -400,23 +405,29 @@ def get_free_key(plan):
     return row
 
 
+
+# ==========================
+# ĐÁNH DẤU KEY ĐÃ BÁN
+# ==========================
+
 def use_key(key_id, buyer_id):
 
     conn = connect()
     cur = conn.cursor()
 
-    cur.execute("""
-    UPDATE keys
-    SET
-        used=1,
-        buyer_id=?,
-        sold_time=?
-    WHERE id=?
-    """, (
-        buyer_id,
-        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        key_id
-    ))
+    cur.execute(
+        """
+        UPDATE keys
+        SET used=1,
+            buyer_id=?,
+            sold_time=datetime('now')
+        WHERE id=?
+        """,
+        (
+            buyer_id,
+            key_id
+        )
+    )
 
     conn.commit()
     conn.close()
