@@ -356,8 +356,7 @@ def confirm_deposit(content):
     conn.commit()
     conn.close()
 
-
-    return True
+    return (user_id, amount)
 
 # ==========================
 # API KEY
