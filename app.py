@@ -1,4 +1,5 @@
 import os
+import asyncio
 
 from flask import Flask, request
 
@@ -40,9 +41,18 @@ tg.add_handler(
     CallbackQueryHandler(buttons)
 )
 
-
 for handler in admin_handlers():
     tg.add_handler(handler)
+
+
+# ==========================
+# KHỞI TẠO BOT 1 LẦN
+# ==========================
+
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
+
+loop.run_until_complete(tg.initialize())
 
 
 # ==========================
