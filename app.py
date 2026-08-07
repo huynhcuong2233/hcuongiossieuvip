@@ -112,14 +112,13 @@ tg.add_handler(
 # CHẠY BOT NỀN
 # ==========================
 
-def run_bot():
-    tg.run_polling()
+import asyncio
 
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 
-threading.Thread(
-    target=run_bot,
-    daemon=True
-).start()
+loop.run_until_complete(tg.initialize())
+loop.run_until_complete(tg.start())
 # ==========================
 # ADMIN DUYỆT NẠP MOMO
 # ==========================
@@ -240,7 +239,7 @@ async def show_products(update, context):
         reply_markup=InlineKeyboardMarkup(keyboard),
         parse_mode="Markdown"
     )
-    # ==========================
+# ==========================
 # XỬ LÝ NÚT BẤM
 # ==========================
 
@@ -486,13 +485,16 @@ tg.add_handler(
 # WEBHOOK FLASK
 # ==========================
 
-@app.post("/webhook")
+@app.route("/webhook", methods=["POST"])
 async def webhook():
+
+    data = request.get_json(force=True)
+
     update = Update.de_json(
-        request.get_json(force=True),
+        data,
         tg.bot
     )
 
     await tg.process_update(update)
 
-    return "OK"
+    return "ok"
