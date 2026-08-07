@@ -7,12 +7,12 @@ from database import (
     count_stock,
 )
 
-ADMIN_ID = 123456789  # Đổi thành Telegram ID của bạn
+ADMIN_ID = 8155433329  # Đổi thành Telegram ID của bạn
 
 
 async def approve_deposit(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    if update.effective_user.id != ADMIN_ID:
+    if update.effective_user.id != ADMIN_ID:8155433329
         await update.message.reply_text("❌ Bạn không có quyền.")
         return
 
