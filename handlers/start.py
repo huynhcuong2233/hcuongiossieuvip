@@ -48,6 +48,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ],
     ]
 
+    try:
+    await update.message.reply_photo(
+        photo=open("assets/banner.jpg", "rb"),
+        caption=text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard),
+    )
+except FileNotFoundError:
     await update.message.reply_text(
         text,
         parse_mode="HTML",
