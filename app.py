@@ -499,13 +499,22 @@ tg.add_handler(
 @app.route("/webhook", methods=["POST"])
 async def webhook():
 
-    data = request.get_json(force=True)
+    try:
+        data = request.get_json(force=True)
 
-    update = Update.de_json(
-        data,
-        tg.bot
-    )
+        print("📩 TELEGRAM UPDATE:", data)
 
-    await tg.process_update(update)
+        update = Update.de_json(
+            data,
+            tg.bot
+        )
 
-    return "ok"
+        await tg.process_update(update)
+
+        print("✅ UPDATE PROCESSED")
+
+        return "ok"
+
+    except Exception as e:
+        print("❌ WEBHOOK ERROR:", repr(e))
+        return "error", 500
