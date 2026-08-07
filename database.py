@@ -37,7 +37,7 @@ def setup_database():
 
     # DEPOSITS
 
-        cur.execute("""
+            cur.execute("""
     CREATE TABLE IF NOT EXISTS orders(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
