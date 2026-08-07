@@ -59,7 +59,7 @@ def setup_database():
         buyer_id INTEGER,
         sold_time TIMESTAMP
     )
-    """)
+        """)
         # API KEYS
 
     cur.execute("""
