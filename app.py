@@ -41,3 +41,26 @@ tg.add_handler(
 
 for handler in admin_handlers():
     tg.add_handler(handler)
+
+
+# ==========================
+# WEBHOOK TELEGRAM
+# ==========================
+
+from telegram import Update
+
+@app.route("/webhook", methods=["POST"])
+async def webhook():
+
+    data = request.get_json(force=True)
+
+    update = Update.de_json(
+        data,
+        tg.bot
+    )
+
+    await tg.initialize()
+
+    await tg.process_update(update)
+
+    return "ok"
