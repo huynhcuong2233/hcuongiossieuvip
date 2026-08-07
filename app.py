@@ -1,5 +1,4 @@
 import os
-import asyncio
 
 from flask import Flask, request
 
@@ -33,31 +32,12 @@ def home():
 tg = Application.builder().token(TOKEN).build()
 
 
-tg.add_handler(
-    CommandHandler("start", start)
-)
-
-tg.add_handler(
-    CallbackQueryHandler(buttons)
-)
+tg.add_handler(CommandHandler("start", start))
+tg.add_handler(CallbackQueryHandler(buttons))
 
 for handler in admin_handlers():
     tg.add_handler(handler)
 
-
-# ==========================
-# KHỞI TẠO BOT 1 LẦN
-# ==========================
-
-loop = asyncio.new_event_loop()
-asyncio.set_event_loop(loop)
-
-loop.run_until_complete(tg.initialize())
-
-
-# ==========================
-# WEBHOOK TELEGRAM
-# ==========================
 
 @app.route("/webhook", methods=["POST"])
 async def webhook():
