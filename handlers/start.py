@@ -1,7 +1,12 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from .buttons import main_menu
 
-async def start(update, context):
-    await main_menu(update, context)
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    print("🔥 START ĐƯỢC GỌI")
+
+    await update.message.reply_text(
+        "✅ HCUONGIOS VIP BOT ONLINE\n\n"
+        "🎉 Lệnh /start hoạt động bình thường!"
+    )
