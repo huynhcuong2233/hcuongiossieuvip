@@ -2,6 +2,7 @@ from telegram import (
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
+    InputFile,
 )
 
 from telegram.ext import ContextTypes
@@ -57,49 +58,61 @@ async def main_menu(update, context):
 
     keyboard = [
 
-        [
-            InlineKeyboardButton(
-                "👤 Tài khoản",
-                callback_data="account"
-            ),
+    [
+        InlineKeyboardButton(
+            "👤 Tài khoản",
+            callback_data="account"
+        ),
 
-            InlineKeyboardButton(
-                "🛒 Cửa hàng",
-                callback_data="shop"
-            )
-        ],
+        InlineKeyboardButton(
+            "🛒 Cửa hàng",
+            callback_data="shop"
+        )
+    ],
 
-        [
-            InlineKeyboardButton(
-                "💳 Nạp tiền",
-                callback_data="deposit"
-            ),
+    [
+        InlineKeyboardButton(
+            "💳 Nạp tiền",
+            callback_data="deposit"
+        ),
 
-            InlineKeyboardButton(
-                "📜 Lịch sử",
-                callback_data="history"
-            )
-        ],
+        InlineKeyboardButton(
+            "🔑 KEY của tôi",
+            callback_data="mykey"
+        )
+    ],
 
-        [
-            InlineKeyboardButton(
-                "☎️ Hỗ trợ",
-                callback_data="support"
-            )
-        ]
+    [
+        InlineKeyboardButton(
+            "📜 Lịch sử",
+            callback_data="history"
+        ),
+
+        InlineKeyboardButton(
+            "📥 Tải file",
+            callback_data="download"
+        )
+    ],
+
+    [
+        InlineKeyboardButton(
+            "☎️ Hỗ trợ",
+            callback_data="support"
+        )
     ]
+]
 
     text = f"""
-🏪 <b>HCUONGIOS STORE</b>
+🏪 <b>HCUONGIOS PREMIUM</b>
 
 ━━━━━━━━━━━━━━━━━━
 
-👋 Xin chào
+👋 Hcuongios Premium Xin chào
 <b>{update.effective_user.first_name or 'Bạn'}</b>
 
-💎 Dịch vụ API Premium
-⚡ Kích hoạt tự động
-🛡️ Bảo hành nhanh
+💎 Bán mọi loại hack
+⚡ Shop tự động
+🛡️ Nhanh Gọn Lẹ
 🔥 Giá tốt mỗi ngày
 
 ━━━━━━━━━━━━━━━━━━
