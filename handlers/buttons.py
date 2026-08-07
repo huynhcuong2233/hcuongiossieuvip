@@ -669,37 +669,33 @@ THACH HUYNH CUONG
 
         # Xác định loại key
 
-if "Migul Pro" in product_name:
-    plan = "PRO"
+        if "Migul Pro" in product_name:
+            plan = "PRO"
 
-else:
-    plan = "BASIC"
-
-
-# Lấy key trong kho
-
-key_data = get_available_key(plan)
+        else:
+            plan = "BASIC"
 
 
-if not key_data:
-
-    await query.answer(
-        "❌ Sản phẩm đã hết key.",
-        show_alert=True
-    )
-
-    return
+        key_data = get_available_key(plan)
 
 
-key_id, api_key = key_data
+        if not key_data:
+
+            await query.answer(
+                "❌ Sản phẩm đã hết key.",
+                show_alert=True
+            )
+
+            return
 
 
-# Đánh dấu key đã bán
+        key_id, api_key = key_data
 
-use_key(
-    key_id,
-    query.from_user.id
-)
+
+        use_key(
+            key_id,
+            query.from_user.id
+        )
 
 
         create_order(
