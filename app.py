@@ -14,15 +14,6 @@ from handlers.start import start
 from handlers.buttons import buttons
 from handlers.admin import admin_handlers
 
-from handlers.commands import (
-    help_cmd,
-    id_cmd,
-    ping_cmd,
-    shop_cmd,
-    contact_cmd,
-    welcome_member,
-)
-
 from database import setup_database
 # ==========================
 # DATABASE
@@ -71,7 +62,6 @@ async def welcome_member(update, context):
     old = member.old_chat_member.status
     new = member.new_chat_member.status
 
-
     if old in ["left", "kicked"] and new == "member":
 
         user = member.new_chat_member.user
@@ -86,6 +76,59 @@ async def welcome_member(update, context):
             ),
             parse_mode="HTML"
         )
+
+
+# ==========================
+# HANDLER
+# ==========================
+
+tg.add_handler(
+    CommandHandler("start", start)
+)
+
+tg.add_handler(
+    CallbackQueryHandler(buttons)
+)
+
+for handler in admin_handlers():
+    tg.add_handler(handler)
+
+tg.add_handler(
+    ChatMemberHandler(
+        welcome_member,
+        ChatMemberHandler.CHAT_MEMBER
+    )
+)
+
+
+# ==========================
+# WEBHOOK
+# ==========================
+
+@app.route("/webhook", methods=["POST"])
+async def webhook():
+
+    try:
+        data = request.get_json(force=True)
+
+        print("📩 TELEGRAM UPDATE:", data)
+
+        update = Update.de_json(
+            data,
+            tg.bot
+        )
+
+        await tg.process_update(update)
+
+        print("✅ UPDATE PROCESSED")
+
+        return "ok", 200
+
+    except Exception as e:
+
+        print("❌ WEBHOOK ERROR:", repr(e))
+
+        return "error", 500
 
 
 # ==========================
