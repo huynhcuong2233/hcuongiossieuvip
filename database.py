@@ -6,8 +6,11 @@ from config import DATABASE_NAME
 # KẾT NỐI DATABASE
 # ==========================
 
-def connect():
-    return sqlite3.connect(DATABASE_NAME)
+conn = sqlite3.connect(
+    DATABASE_NAME,
+    timeout=10,
+    check_same_thread=False
+)
 
 
 # ==========================
