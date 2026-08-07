@@ -735,7 +735,110 @@ THACH HUYNH CUONG
 """,
             parse_mode="HTML"
         )
+elif query.data == "download":
 
+    text = """
+📥 <b>TRUNG TÂM TẢI FILE</b>
+
+🎮 Chọn game cần tải:
+"""
+
+    keyboard = [
+        [InlineKeyboardButton("🔥 Free Fire", callback_data="ff")],
+        [InlineKeyboardButton("🎯 PUBG Mobile", callback_data="pubg")],
+        [InlineKeyboardButton("⚔️ Liên Quân Mobile", callback_data="lq")],
+        [InlineKeyboardButton("⬅️ Quay lại", callback_data="home")],
+    ]
+
+    await query.edit_message_text(
+        text,
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup(keyboard),
+    )
+
+
+elif query.data == "ff":
+
+    await query.edit_message_text(
+        """
+🔥 <b>FREE FIRE</b>
+
+📥 Link tải:
+
+https://link-cua-ban.com/FreeFire.ipa
+""",
+        parse_mode="HTML",
+        reply_markup=InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton(
+                    "📥 Tải ngay",
+                    url="https://link-cua-ban.com/FreeFire.ipa"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    "⬅️ Quay lại",
+                    callback_data="download"
+                )
+            ]
+        ])
+    )
+
+
+elif query.data == "pubg":
+
+    await query.edit_message_text(
+    """
+🎯 <b>PUBG MOBILE</b>
+
+📥 Link tải:
+
+https://link-cua-ban.com/PUBG.ipa
+""",
+    parse_mode="HTML",
+    reply_markup=InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                "📥 Tải ngay",
+                url="https://link-cua-ban.com/PUBG.ipa"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="download"
+            )
+        ]
+    ])
+)
+
+
+elif query.data == "lq":
+
+    await query.edit_message_text(
+    """
+⚔️ <b>LIÊN QUÂN MOBILE</b>
+
+📥 Link tải:
+
+https://link-cua-ban.com/LienQuan.ipa
+""",
+    parse_mode="HTML",
+    reply_markup=InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                "📥 Tải ngay",
+                url="https://link-cua-ban.com/LienQuan.ipa"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "⬅️ Quay lại",
+                callback_data="download"
+            )
+        ]
+    ])
+)
 
     else:
 
