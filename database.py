@@ -10,7 +10,6 @@ def connect():
     return sqlite3.connect(DATABASE_NAME)
 
 
-
 # ==========================
 # TẠO BẢNG
 # ==========================
@@ -20,9 +19,7 @@ def setup_database():
     conn = connect()
     cur = conn.cursor()
 
-
     # USERS
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS users(
         user_id INTEGER PRIMARY KEY,
@@ -34,9 +31,7 @@ def setup_database():
     )
     """)
 
-
-      # DEPOSITS
-
+    # DEPOSITS
     cur.execute("""
     CREATE TABLE IF NOT EXISTS deposits(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +44,6 @@ def setup_database():
     """)
 
     # ORDERS
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS orders(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,7 +56,6 @@ def setup_database():
     """)
 
     # API KEYS
-
     cur.execute("""
     CREATE TABLE IF NOT EXISTS keys(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,11 +67,8 @@ def setup_database():
     )
     """)
 
-
     conn.commit()
     conn.close()
-
-
 
 # ==========================
 # USER
@@ -469,3 +459,4 @@ def get_my_keys(user_id):
     conn.close()
 
     return rows
+    
