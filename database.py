@@ -1,6 +1,6 @@
 import sqlite3
+from datetime import datetime
 from config import DATABASE_NAME
-
 
 # ==========================
 # KẾT NỐI DATABASE
@@ -59,6 +59,18 @@ def setup_database():
         price INTEGER,
         api_key TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+        # API KEYS
+
+    cur.execute("""
+    CREATE TABLE IF NOT EXISTS keys(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        api_key TEXT UNIQUE,
+        plan TEXT,
+        used INTEGER DEFAULT 0,
+        buyer_id INTEGER,
+        sold_time TIMESTAMP
     )
     """)
 
@@ -356,3 +368,104 @@ def confirm_deposit(content):
 
 
     return True
+
+# ==========================
+# API KEY
+# ==========================
+
+def add_key(plan, api_key):
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    INSERT INTO keys(
+        api_key,
+        plan
+    )
+    VALUES(?,?)
+    """, (api_key, plan))
+
+    conn.commit()
+    conn.close()
+
+
+def get_free_key(plan):
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT id, api_key
+    FROM keys
+    WHERE plan=?
+    AND used=0
+    ORDER BY id ASC
+    LIMIT 1
+    """, (plan,))
+
+    row = cur.fetchone()
+
+    conn.close()
+
+    return row
+
+
+def use_key(key_id, buyer_id):
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    UPDATE keys
+    SET
+        used=1,
+        buyer_id=?,
+        sold_time=?
+    WHERE id=?
+    """, (
+        buyer_id,
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        key_id
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def count_stock(plan):
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT COUNT(*)
+    FROM keys
+    WHERE plan=?
+    AND used=0
+    """, (plan,))
+
+    total = cur.fetchone()[0]
+
+    conn.close()
+
+    return total
+
+
+def get_my_keys(user_id):
+
+    conn = connect()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT api_key, plan, sold_time
+    FROM keys
+    WHERE buyer_id=?
+    ORDER BY id DESC
+    """, (user_id,))
+
+    rows = cur.fetchall()
+
+    conn.close()
+
+    return rows
