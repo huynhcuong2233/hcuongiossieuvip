@@ -131,7 +131,7 @@ async def shop_cmd(update: Update, context):
         [
             InlineKeyboardButton(
                 "💳 THANH TOÁN",
-                callback_data="payment"
+                callback_data="deposit"
             ),
             InlineKeyboardButton(
                 "👤 HỖ TRỢ",
